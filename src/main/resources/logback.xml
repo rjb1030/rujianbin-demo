@@ -1,0 +1,54 @@
+<configuration>
+	<contextName>standard-code</contextName>
+	<appender name="LOGSTASH" class="com.cwbase.logback.RedisAppender">
+		<host>172.16.130.103</host>
+		<port>6379</port>
+		<key>LOG_JSON</key>
+		<password>123</password>
+	</appender>
+	
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<discriminator>
+			<Key>userName</Key>
+			<DefaultCalue>system</DefaultCalue>
+		</discriminator>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level %mdc{userName} %logger{36} - %msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoder>UTF-8</Encoder>
+		<encoder>
+			<pattern>%d{MMdd.HHmmss} [%-22t] %-5p L:%-3L %-22c{0} - %m%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>../logs/static-service.%d{yyyyMMdd}.log</fileNamePattern>
+		</rollingPolicy>
+	</appender>
+	<root level="warn">
+		<appender-ref ref="console" />
+	</root>
+	<logger name="com.hengtiansoft.xinyunlian" level="info">
+		<appender-ref ref="file" />
+	</logger>
+	
+	<logger name="com.hengtiansoft.xinyunlian.eia.common.util.RedisLogger" level = "info">
+		<appender-ref ref="LOGSTASH" />
+	</logger>
+	
+	<logger name="com.hengtiansoft.xinyunlian" level = "info"/>
+	<logger name="org.springframework.beans" level = "error"/>
+	<logger name="org.springframework.web" level = "error"/>
+	<logger name="org.springframework.context" level = "error"/>
+	<logger name="net.sf" level = "error"/>
+	<logger name="org.apache" level = "error"/>
+	
+	<root level="error">
+		<appender-ref ref="console" />
+		<!--<appender-ref ref="LOGSTASH" />-->
+	</root>
+	
+</configuration>

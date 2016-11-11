@@ -13,7 +13,7 @@ import org.hibernate.search.annotations.Store;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
 @Indexed
-public class Product implements Serializable{
+public class Product_bak implements Serializable{
 
 	/**
 	 * 

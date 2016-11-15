@@ -21,37 +21,37 @@ public class Bean1 implements Serializable{
 	@Id
 	private Long id;
 	
-	@Field(type = FieldType.String, index = FieldIndex.analyzed)
+	@Field(type = FieldType.String, index = FieldIndex.analyzed,store=true)
 	private String name;
 	
-	@Field(type = FieldType.String, index = FieldIndex.analyzed)
+	@Field(type = FieldType.String, index = FieldIndex.analyzed,store=true)
 	private String introduction;
 	
-	@Field(type = FieldType.Date, index = FieldIndex.not_analyzed)
+	@Field(type = FieldType.Date, index = FieldIndex.not_analyzed,store=true)
 	private Date crerateDate;
 	
-	@Field(type = FieldType.Float, index = FieldIndex.not_analyzed)
+	@Field(type = FieldType.Float, index = FieldIndex.not_analyzed,store=true)
 	private Float score;
 	
-	@Field(type = FieldType.Integer, index = FieldIndex.not_analyzed)
+	@Field(type = FieldType.Integer, index = FieldIndex.not_analyzed,store=true)
 	private Integer inventoryNum;
 	
-	@Field(type = FieldType.Double, index = FieldIndex.not_analyzed)
+	@Field(type = FieldType.Double, index = FieldIndex.not_analyzed,store=true)
 	private BigDecimal price;
 	
-	@Field(type = FieldType.Double, index = FieldIndex.not_analyzed)
+	@Field(type = FieldType.Double, index = FieldIndex.not_analyzed,store=true)
 	private Double cost;
 	
-	@Field(type = FieldType.Boolean, index = FieldIndex.not_analyzed)
+	@Field(type = FieldType.Boolean, index = FieldIndex.not_analyzed,store=true)
 	private Boolean isGift;
 
-	@Field(type = FieldType.Nested)
+	@Field(type = FieldType.Nested,store=true)
 	private Bean2 bean2;
 	
-	@Field(type = FieldType.Nested)
+	@Field(type = FieldType.Nested,store=true)
 	private List<Bean2> bean2List;
 	
-	@Field(type = FieldType.Nested)
+	@Field(type = FieldType.Nested,store=true)
 	private Map<String,Bean3> beansMap;
 	
 	public Long getId() {

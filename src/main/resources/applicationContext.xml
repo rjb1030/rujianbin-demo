@@ -16,10 +16,10 @@
 	<task:annotation-driven/>
 
 	<import resource="classpath*:env/*/applicationContext.xml" />
-	<import resource="classpath*:applicationContext-redis-cluster.xml" />
-	<import resource="classpath*:applicationContext-redis-single.xml" />
-	<import resource="classpath*:applicationContext-redis-springdata.xml" />
-	<import resource="classpath*:applicationContext-mq.xml" />
+	<!-- <import resource="classpath*:applicationContext-redis-cluster.xml" /> -->
+	<!-- <import resource="classpath*:applicationContext-redis-single.xml" /> -->
+	<!-- <import resource="classpath*:applicationContext-redis-springdata.xml" /> -->
+	<!-- <import resource="classpath*:applicationContext-mq.xml" /> -->
 	<import resource="classpath*:applicationContext-elasticsearch.xml" />
 
 	<context:component-scan base-package="com.hengtiansoft.xinyunlian">

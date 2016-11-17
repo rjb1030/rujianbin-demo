@@ -122,14 +122,14 @@ public class CURD{
 		for(Iterator<Entry<String,Object>> it = map.entrySet().iterator();it.hasNext();){
 			Entry<String,Object> entry = it.next();
 //			TermQueryBuilder query = QueryBuilders.termQuery(entry.getKey(), entry.getValue());
-//			MatchQueryBuilder query = QueryBuilders.matchQuery(entry.getKey(), entry.getValue()).operator(MatchQueryBuilder.Operator.AND);
-			WildcardQueryBuilder query = QueryBuilders.wildcardQuery(entry.getKey(), "*"+entry.getValue().toString()+"*");
+//			MatchQueryBuilder query = QueryBuilders.matchQuery(entry.getKey(), entry.getValue()).operator(MatchQueryBuilder.Operator.OR);
+			WildcardQueryBuilder query = QueryBuilders.wildcardQuery(entry.getKey(), "*"+entry.getValue().toString()+"*").boost(100F);
 			boolQueryBuilder.must(query);
 		}
 		
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
 				.withQuery(boolQueryBuilder).withPageable(new PageRequest(1, 20)).build();
-
+		System.out.println(searchQuery.getQuery());
 		Page<Bean1> page  = template.queryForPage(searchQuery, clazz);
 
 		return page;

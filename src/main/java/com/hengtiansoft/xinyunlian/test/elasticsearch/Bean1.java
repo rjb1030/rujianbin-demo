@@ -12,7 +12,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-@Document(indexName = "es-bean1",type = "es-bean1-type", shards = 1, replicas = 0)
+@Document(indexName = "es-bean1",type = "es-bean1-type", shards = 3, replicas = 1)
 public class Bean1 implements Serializable{
 
 
@@ -21,10 +21,10 @@ public class Bean1 implements Serializable{
 	@Id
 	private Long id;
 	
-	@Field(type = FieldType.String, index = FieldIndex.analyzed,store=true)
+	@Field(type = FieldType.String, index = FieldIndex.analyzed,store=true,analyzer="ik")
 	private String name;
 	
-	@Field(type = FieldType.String, index = FieldIndex.analyzed,store=true)
+	@Field(type = FieldType.String, index = FieldIndex.not_analyzed,store=true)
 	private String introduction;
 	
 	@Field(type = FieldType.Date, index = FieldIndex.not_analyzed,store=true)

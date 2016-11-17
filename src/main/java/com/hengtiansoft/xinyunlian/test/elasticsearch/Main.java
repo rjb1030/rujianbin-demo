@@ -19,10 +19,10 @@ public class Main {
 		
 		ElasticsearchTemplate template = context.getBean("elasticsearchTemplate", ElasticsearchTemplate.class);
 		CURD curd = new CURD(template);
+		
 //		curd.deleteByClass(Bean1.class);
-//		
 //		List<Long> ids = new ArrayList<Long>();
-//		for(long i=1;i<=1000;i++){
+//		for(long i=1;i<=10;i++){
 //			ids.add(i);
 //		}
 //		Long l1 = System.currentTimeMillis();
@@ -31,7 +31,7 @@ public class Main {
 //		System.out.println("耗时="+(l2-l1));
 
 		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("name","加");
+		map.put("name","凉茶");
 		Page<Bean1> page = curd.queryForBool(map,Bean1.class);
 		if(page!=null && page.getContent()!=null){
 			for(Bean1 b : page.getContent()){

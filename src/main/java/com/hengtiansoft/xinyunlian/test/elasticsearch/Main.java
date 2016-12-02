@@ -18,7 +18,7 @@ public class Main {
 		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		
 		ElasticsearchTemplate template = context.getBean("elasticsearchTemplate", ElasticsearchTemplate.class);
-		CURD curd = new CURD(template);
+		CURD<Bean1> curd = new CURD<Bean1>(template,Bean1.class);
 		
 //		curd.deleteByClass(Bean1.class);
 //		List<Long> ids = new ArrayList<Long>();
@@ -31,13 +31,15 @@ public class Main {
 //		System.out.println("耗时="+(l2-l1));
 
 		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("name","凉茶");
-		Page<Bean1> page = curd.queryForBool(map,Bean1.class);
-		if(page!=null && page.getContent()!=null){
+		map.put("cn_name","凉茶");
+		Page<Bean1> page = curd.queryForBool(map);
+		if(page!=null && page.getContent()!=null && !page.getContent().isEmpty()){
 			for(Bean1 b : page.getContent()){
 				System.out.println("id="+b.getId());
 			}
 				
+		}else{
+			System.out.println("查询结果为空");
 		}
 		System.exit(1);
 		

@@ -27,6 +27,12 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>com.danga</groupId>
+			<artifactId>java_memcached</artifactId>
+			<version>2.5.1</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-elasticsearch</artifactId>
 			<version>2.0.2.RELEASE</version>

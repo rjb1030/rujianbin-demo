@@ -22,7 +22,13 @@ public class Bean1 implements Serializable{
 	private Long id;
 	
 	@Field(type = FieldType.String, index = FieldIndex.analyzed,store=true,analyzer="ik")
-	private String name;
+	private String cn_name;
+	
+	@Field(type = FieldType.String, index = FieldIndex.analyzed,store=true,analyzer="ik")
+	private String en_name;
+	
+	@Field(type = FieldType.String, index = FieldIndex.analyzed,store=true,analyzer="standard")
+	private String standard_name;
 	
 	@Field(type = FieldType.String, index = FieldIndex.not_analyzed,store=true)
 	private String introduction;
@@ -48,11 +54,11 @@ public class Bean1 implements Serializable{
 	@Field(type = FieldType.Nested,store=true)
 	private Bean2 bean2;
 	
-	@Field(type = FieldType.Nested,store=true)
-	private List<Bean2> bean2List;
-	
-	@Field(type = FieldType.Nested,store=true)
-	private Map<String,Bean3> beansMap;
+//	@Field(type = FieldType.Nested,store=true)
+//	private List<Bean2> bean2List;
+//	
+//	@Field(type = FieldType.Nested,store=true)
+//	private Map<String,Bean3> beansMap;
 	
 	public Long getId() {
 		return id;
@@ -62,12 +68,28 @@ public class Bean1 implements Serializable{
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getCn_name() {
+		return cn_name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCn_name(String cn_name) {
+		this.cn_name = cn_name;
+	}
+
+	public String getEn_name() {
+		return en_name;
+	}
+
+	public void setEn_name(String en_name) {
+		this.en_name = en_name;
+	}
+
+	public String getStandard_name() {
+		return standard_name;
+	}
+
+	public void setStandard_name(String standard_name) {
+		this.standard_name = standard_name;
 	}
 
 	public String getIntroduction() {
@@ -134,21 +156,21 @@ public class Bean1 implements Serializable{
 		this.bean2 = bean2;
 	}
 
-	public List<Bean2> getBean2List() {
-		return bean2List;
-	}
-
-	public void setBean2List(List<Bean2> bean2List) {
-		this.bean2List = bean2List;
-	}
-
-	public Map<String, Bean3> getBeansMap() {
-		return beansMap;
-	}
-
-	public void setBeansMap(Map<String, Bean3> beansMap) {
-		this.beansMap = beansMap;
-	}
+//	public List<Bean2> getBean2List() {
+//		return bean2List;
+//	}
+//
+//	public void setBean2List(List<Bean2> bean2List) {
+//		this.bean2List = bean2List;
+//	}
+//
+//	public Map<String, Bean3> getBeansMap() {
+//		return beansMap;
+//	}
+//
+//	public void setBeansMap(Map<String, Bean3> beansMap) {
+//		this.beansMap = beansMap;
+//	}
 	
 	
 	

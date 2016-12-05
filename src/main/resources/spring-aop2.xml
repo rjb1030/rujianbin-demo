@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- 使用xml schema定义语义约束，如果使用dtd定义语义约束，则不能使用spring3.0所新增的配置标签 -->
+<beans xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+       default-lazy-init="false" default-merge="false"  default-autowire-candidates="no" default-init-method="" default-destroy-method="">
+
+      	<!-- 激活组件扫描功能,在包aop2及其子包下面自动扫描通过注解配置的组件 -->
+		<context:component-scan base-package="com.hengtiansoft.xinyunlian.test.aop2"/>
+		
+		<!-- 启动@AspectJ支持     使用schema配置或者bean配置，2选1-->
+  <!--  <bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator"></bean>--> 
+		<!-- 激活自动代理功能  proxy-target-class="true"则强制使用CGLIB代理 -->
+		<aop:aspectj-autoproxy /> 
+	
+      
+       <bean id="yellowHuman-2" class="com.hengtiansoft.xinyunlian.test.aop2.YellowHuman"></bean>
+       
+</beans>

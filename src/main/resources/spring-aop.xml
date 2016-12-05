@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- 使用xml schema定义语义约束，如果使用dtd定义语义约束，则不能使用spring3.0所新增的配置标签 -->
+<beans xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+       default-lazy-init="false" default-merge="false"  default-autowire-candidates="no" default-init-method="" default-destroy-method="">
+	
+		
+	
+      <aop:config>
+            <!-- 切入点复用 -->
+            <aop:pointcut id="mypointCut" expression="execution(* com.hengtiansoft.xinyunlian.test.aop.YellowHuman.*(..))" />
+      
+      		<aop:advisor advice-ref="adviceBeforeImpl" pointcut-ref="mypointCut"/>
+      
+            <!-- 将普通bean转换成切面bean -->
+      		<aop:aspect id="myaop" ref="AOPBean" order="1">
+      			<aop:before method="beforeMethod" pointcut-ref="mypointCut"/>
+      			<aop:after method="afterMethod" pointcut-ref="mypointCut"/>
+      			<aop:after-returning method="afterMethodUseReturn" pointcut="execution(* com.hengtiansoft.xinyunlian.test.aop.YellowHuman.cry(..))" returning="returning"/>
+      			<aop:around method="around" pointcut="execution(* com.hengtiansoft.xinyunlian.test.aop.YellowHuman.talk(..))"/>
+      			<aop:after-throwing method="afterMethodThrowing" pointcut="execution(* com.hengtiansoft.xinyunlian.test.aop.YellowHuman.think(..))" throwing="ex"/>
+      		    <aop:after-returning method="dealGetDate" pointcut="execution(* com.hengtiansoft.xinyunlian.test.aop.YellowHuman.*(..)) and args(d,f,..)" returning="returning"/><!-- xml配置文件   与关系用and  annotation配置用&& -->
+      		</aop:aspect>
+      		
+      		<aop:aspect id="myaop2" ref="AOPBean2" order="2">
+      			<aop:after method="afterMethod" pointcut="execution(* com.hengtiansoft.xinyunlian.test.aop.YellowHuman.*(..))"/>
+      		</aop:aspect>
+      		
+      		
+      </aop:config>
+      
+      <!-- 以下2个bean会被作为aspect bean -->
+      <bean id="AOPBean" class="com.hengtiansoft.xinyunlian.test.aop.AOPBean"></bean>
+      <bean id="AOPBean2" class="com.hengtiansoft.xinyunlian.test.aop.AOPBean2"></bean>
+      
+      <bean id="yellowHuman" class="com.hengtiansoft.xinyunlian.test.aop.YellowHuman"></bean>
+      
+      <!-- 自动义通知advice,再由advisor和pointcut组装：advisor就是advice和pointcut的自由组合     -->
+      <bean id="adviceBeforeImpl" class="com.hengtiansoft.xinyunlian.test.aop.AdviceBeforeImpl"></bean>
+       
+</beans>

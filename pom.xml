@@ -5,7 +5,7 @@
   <artifactId>rujianbin-demo</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>xinyunlian-static-service Maven Webapp</name>
+  <name>rujianbin-demo Maven Webapp</name>
   <url>http://maven.apache.org</url>
   
   
@@ -25,6 +25,12 @@
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz</artifactId>
+		    <version>1.8.6</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.danga</groupId>
@@ -199,6 +205,11 @@
 
 		<!-- commons -->
 		<dependency>
+		    <groupId>commons-dbcp</groupId>
+		    <artifactId>commons-dbcp</artifactId>
+		    <version>1.4</version>
+		</dependency>
+		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>1.6</version>
@@ -279,7 +290,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.12</version>
+			<version>5.1.35</version>
 		</dependency>
 		<dependency>
 			<groupId>cglib</groupId>

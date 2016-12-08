@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<job-scheduling-data xmlns="http://www.quartz-scheduler.org/xml/JobSchedulingData"  
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+  xsi:schemaLocation="http://www.quartz-scheduler.org/xml/JobSchedulingData http://www.quartz-scheduler.org/xml/job_scheduling_data_1_8.xsd"  
+  version="1.8"> 
+    <pre-processing-commands>   
+        <delete-jobs-in-group>*</delete-jobs-in-group>  <!-- clear all jobs in scheduler -->   
+        <delete-triggers-in-group>*</delete-triggers-in-group> <!-- clear all triggers in scheduler -->   
+    </pre-processing-commands>   
+       
+    <processing-directives>   
+        <overwrite-existing-data>true</overwrite-existing-data>   
+        <ignore-duplicates>false</ignore-duplicates>    
+    </processing-directives> 
+	<schedule>   
+		  <job>  
+			   <name>job1_xml配置</name>   
+			   <group>jobGroup1_xml配置</group>  
+			   <job-class>com.hengtiansoft.xinyunlian.test.quartz.编程式.JobImpl</job-class>   
+			   <volatility>false</volatility>   
+			   <durability>false</durability>   
+			   <recover>false</recover>
+			   <job-data-map>  
+                <!-- entry可以设定多个-->  
+                <entry>  
+                    <key>data1</key>  
+                    <value>你好，我是xml配置的任务</value>  
+                </entry>  
+            </job-data-map>  
+		  </job>  
+		  <trigger>  
+		      <cron>  
+		           <name>trigg1_xml配置</name> 
+		           <group>triggGroup1_xml配置</group>  
+			       <job-name>job1_xml配置</job-name>  
+			       <job-group>jobGroup1_xml配置</job-group> 
+			       <!-- <start-time>2012-07-12T00:00:00</start-time> -->   
+		           <cron-expression>0/3 * * * * ?</cron-expression>  
+		      </cron>   
+		  </trigger>
+		  
+		  <job>  
+			   <name>job2_xml配置</name>   
+			   <group>jobGroup2_xml配置</group>  
+			   <job-class>com.hengtiansoft.xinyunlian.test.quartz.编程式.JobImpl</job-class>   
+			   <volatility>false</volatility>   
+			   <durability>false</durability>   
+			   <recover>false</recover>
+			   <job-data-map>  
+                <!-- entry可以设定多个-->  
+                <entry>  
+                    <key>data1</key>  
+                    <value>你好2，我是xml配置的任务</value>  
+                </entry>  
+            </job-data-map>  
+		  </job>  
+		  <trigger>  
+		      <cron>  
+		           <name>trigg2_xml配置</name> 
+		           <group>triggGroup2_xml配置</group>  
+			       <job-name>job2_xml配置</job-name>  
+			       <job-group>jobGroup2_xml配置</job-group> 
+			       <!-- <start-time>2012-07-12T00:00:00</start-time> -->   
+		           <cron-expression>0/7 * * * * ?</cron-expression>  
+		      </cron>   
+		  </trigger>  
+	</schedule>   
+</job-scheduling-data>

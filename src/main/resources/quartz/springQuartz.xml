@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>  
+
+	
+
+<!-- 第1个任务 -->  
+	<!-- 定义调度工作任务 --> 
+ 	<bean id="quantzjobBean1" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass">
+            <!-- 实现了org.springframework.scheduling.quartz.QuartzJobBean的JobBean -->
+            <value>com.hengtiansoft.xinyunlian.test.quartz.集成spring.QuartzJobImpl</value>
+        </property>
+        <!-- 调用业务逻辑 -->
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="data1">
+                    <value>我是spring带的数据</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+	<!-- 触发任务条件 -->
+    <bean id="simpletriggerbean1" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+        <property name="jobDetail" ref="quantzjobBean1"></property>
+        <!-- 延迟一分钟启动 -->
+        <property name="startDelay">
+            <value>15000</value>
+        </property>
+        <!-- 每隔10分钟调用一次 -->
+        <property name="repeatInterval">
+            <value>2000</value>
+        </property>
+        <!-- 执行N次 -->
+        <property name="repeatCount">
+            <value>-1</value>
+        </property>        
+    </bean>
+    
+<!-- 第2个任务 -->    
+    
+    <!-- 定义调度工作任务 --> 
+ 	<bean id="quantzjobBean2" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass">
+            <!-- 实现了org.springframework.scheduling.quartz.QuartzJobBean的JobBean -->
+            <value>com.hengtiansoft.xinyunlian.test.quartz.集成spring.QuartzJobImpl</value>
+        </property>
+        <!-- 调用业务逻辑 -->
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="data1">
+                    <value>我是spring带的数据222</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+	<!-- 触发任务条件 -->
+    <bean id="crontriggerbean2" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="quantzjobBean2"></property>
+        <!-- 延迟一分钟启动 -->
+        <property name="startDelay">
+            <value>15000</value>
+        </property>
+        <property name="cronExpression">
+        	<value>0/7 * * * * ?</value>
+        </property>   
+    </bean>
+    
+    <!-- 启动调度 -->
+    <bean id="startQuartz" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="simpletriggerbean1"/>
+                <ref bean="crontriggerbean2"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

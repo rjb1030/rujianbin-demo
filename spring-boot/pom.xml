@@ -2,25 +2,56 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>rujianbin</groupId>
-    <artifactId>rujianbin-demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
+  <parent>  
+        <groupId>org.springframework.boot</groupId>  
+        <artifactId>spring-boot-starter-parent</artifactId>  
+        <version>1.4.2.RELEASE</version>  
+  </parent>  
   <groupId>rujianbin</groupId>
   <artifactId>rujianbin-boot</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>spring-boot</name>
-  <url>http://maven.apache.org</url>
+  
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <spring.boot.version>1.1.4.RELEASE</spring.boot.version>
   </properties>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+  <dependencies>  
+        <dependency>  
+            <groupId>org.springframework.boot</groupId>  
+            <artifactId>spring-boot-starter-web</artifactId>  
+            <!-- <exclusions>
+            	<exclusion>
+            		<groupId>org.hibernate</groupId>
+            		<artifactId>hibernate-validator</artifactId>
+            	</exclusion>
+            </exclusions> -->
+        </dependency>
+        <dependency>
+		    <groupId>javax.el</groupId>
+		    <artifactId>javax.el-api</artifactId>
+		    <version>3.0.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.tomcat</groupId>
+		    <artifactId>tomcat-juli</artifactId>
+		    <version>8.5.8</version>
+		</dependency>  
+   </dependencies>
+   <build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${spring.boot.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

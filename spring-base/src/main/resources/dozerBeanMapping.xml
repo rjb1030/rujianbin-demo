@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+  <configuration>
+    <custom-converters> <!-- these are always bi-directional -->
+      <converter type="com.hengtiansoft.xinyunlian.staticservice.common.coverter.PromotionTypeEnumConverter" >
+        <class-a>com.hengtiansoft.xinyunlian.entity.Promotion.PromotionType</class-a>
+        <class-b>com.hengtiansoft.xinyunlian.enumbean.PromotionType</class-b>
+      </converter>
+      <converter type="com.hengtiansoft.xinyunlian.staticservice.common.coverter.PromotionMethodEnumConverter" >
+        <class-a>com.hengtiansoft.xinyunlian.entity.Promotion.Method</class-a>
+        <class-b>com.hengtiansoft.xinyunlian.enumbean.PromotionMethod</class-b>
+      </converter>
+    </custom-converters>     
+  </configuration>
+  
+  <mapping>
+  	 <class-a>com.hengtiansoft.xinyunlian.entity.Promotion</class-a>
+ 	 <class-b>com.hengtiansoft.xinyunlian.domain.PromotionBean</class-b>    
+  	 <field custom-converter=
+    	"com.hengtiansoft.xinyunlian.staticservice.common.coverter.PromotionTypeEnumConverter">
+   	 	<a>promotionType</a>
+    	<b>promotionType</b>
+  	 </field>
+  	 <field custom-converter=
+    	"com.hengtiansoft.xinyunlian.staticservice.common.coverter.PromotionMethodEnumConverter">
+   	 	<a>promotionMethod</a>
+    	<b>promotionMethod</b>
+  	 </field>
+  </mapping>   
+</mappings>
+        

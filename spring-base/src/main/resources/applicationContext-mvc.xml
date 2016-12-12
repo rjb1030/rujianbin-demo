@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
+	default-lazy-init="true">
+
+	
+	<import resource="classpath*:env/*/applicationContext-mvc.xml"/>
+
+	<context:component-scan base-package="com.hengtiansoft.xinyunlian" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<mvc:annotation-driven validator="validator" >
+	<mvc:message-converters>
+		<bean id="wsMessageConverter" class="com.hengtiansoft.xinyunlian.web.WSJackson2HttpMessageConverter">
+			<property name="objectMapper" ref="wsObjectMapper" />
+		</bean>
+		<bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+			<property name="objectMapper" ref="jacksonObjectMapper" />
+		</bean>
+	</mvc:message-converters> 
+	</mvc:annotation-driven> 
+	
+	<bean id="wsObjectMapper" class="com.hengtiansoft.xinyunlian.util.json.WSObjectMapper">
+	</bean>
+	
+	<bean id="jacksonObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper">
+		<property name="filters" ref="withOutFail"></property>
+	</bean>
+	<bean id="withOutFail" class="com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider">
+		<property name="failOnUnknownId" value="false"></property>
+	</bean>
+
+
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="contentType" value="text/html; charset=UTF-8" />
+		<property name="suffix" value="${template.suffix}" />
+	</bean>
+
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="maxInMemorySize" value="5242880" />
+	</bean>
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean id="openSessionInViewInterceptor" class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor">
+				<property name="entityManagerFactory" ref="entityManagerFactory" />
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+</beans>

@@ -1,0 +1,28 @@
+server:
+ port: 8080
+ address: localhost
+
+jdbc:
+ driverClass: com.mysql.jdbc.Driver
+ url: jdbc:mysql://192.168.91.228:8066/mytest?useUnicode=true&characterEncoding=utf-8
+ username: root
+ password: 123456
+    
+spring:     
+ http:
+  encoding.charset: UTF-8
+  encoding.enable: true
+  encoding.force: true
+
+mybatis:
+ typeAliasesPackage: com.rujianbin.boot.entity
+ mapperLocations: classpath:/mapper/*.xml
+ configLocation: classpath:/mybatis-config.xml
+logging:
+ level:
+  com.ibatis: DEBUG
+    
+    
+    
+    
+    

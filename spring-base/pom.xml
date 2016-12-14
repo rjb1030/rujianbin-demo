@@ -8,7 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <groupId>rujianbin</groupId>
-  <artifactId>rujianbin-base</artifactId>
+  <artifactId>spring-base</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>spring-base Maven Webapp</name>
@@ -634,7 +634,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.1.1</version>
 				<configuration>
-					<warName>rujianbin-base</warName>
+					<warName>spring-base</warName>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -642,13 +642,13 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-					<path>/rujianbin-base</path>
+					<path>/spring-base</path>
 					<port>8080</port>
 				</configuration>
 			</plugin>
 		</plugins>
 		
-		<finalName>rujianbin-base</finalName>
+		<finalName>spring-base</finalName>
 	</build>
 
 </project>

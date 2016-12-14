@@ -10,6 +10,8 @@ import org.apache.zookeeper.ZooKeeper;
 
 public abstract class AbstractZooKeeper implements Watcher {  
   
+	 private String defaultHosts="192.168.91.228:2181,192.168.91.228:2182,192.168.91.228:2183";
+	
     //缓存时间  
      private static final int SESSION_TIME   = 2000;     
      public ZooKeeper zooKeeper;  
@@ -19,18 +21,19 @@ public abstract class AbstractZooKeeper implements Watcher {
      public void connect(String hosts) throws IOException, InterruptedException{     
             zooKeeper = new ZooKeeper(hosts,SESSION_TIME,this);     
             countDownLatch.await();
-            System.out.println("连接成功");
-      }     
+     }
+     
+     public void connect() throws IOException, InterruptedException{     
+         zooKeeper = new ZooKeeper(defaultHosts,SESSION_TIME,this);     
+         countDownLatch.await();
+         
+     }
   
-    /* (non-Javadoc) 
-     * @see org.apache.zookeeper.Watcher#process(org.apache.zookeeper.WatchedEvent) 
-     */  
     @Override  
     public void process(WatchedEvent event) {  
-        // TODO Auto-generated method stub  
-    	System.out.println("哈哈哈  watch被触发");
         if(event.getState()==KeeperState.SyncConnected){  
-            countDownLatch.countDown();  
+            countDownLatch.countDown();
+            System.out.println(Thread.currentThread().getName()+",zookeeper连接成功");
         }  
     }  
       

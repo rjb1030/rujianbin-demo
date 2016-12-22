@@ -20,6 +20,7 @@ public class HellowController {
 	@Resource(name="personServiceImpl")
 	private IPersonService personService;
 	
+	//127.0.0.1:8080/hellow
 	@RequestMapping("/hellow")  
     public String hellow(){  
         return "哈喽，Spring Boot ！-"+userService.getName();  

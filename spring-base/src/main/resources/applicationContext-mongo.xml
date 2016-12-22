@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/data/mongo
+	http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	
+
+	<!-- connections-per-host单个IP允许多少连接，超出则等待空闲连接；  threads-allowed-to-block-for-connection-multiplier 允许等待连接的客户端数   如果开启验证则端口号后面加属性 credentials="root:123456@testdb"-->
+	<mongo:mongo-client id="mongo" host="192.168.91.228" port="27015"  >
+        <mongo:client-options 
+        	connections-per-host="10"     
+        	threads-allowed-to-block-for-connection-multiplier="5" 
+        	max-wait-time="120000" />
+    </mongo:mongo-client>
+	
+	<mongo:db-factory id="mongoDbFactory" mongo-ref="mongo" dbname="testdb" />
+    
+	<bean id="mappingContext" class="org.springframework.data.mongodb.core.mapping.MongoMappingContext" />
+    
+	<bean id="defaultMongoTypeMapper" class="org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper">  
+		<constructor-arg name="typeKey">
+			<null/>
+		</constructor-arg>  
+	</bean>
+ 	
+	<bean id="mappingMongoConverter" class="org.springframework.data.mongodb.core.convert.MappingMongoConverter">  
+		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />  
+		<constructor-arg name="mappingContext" ref="mappingContext" />
+		<property name="typeMapper" ref="defaultMongoTypeMapper" />  
+	</bean> 
+    
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" /> 
+		<constructor-arg name="mongoConverter" ref="mappingMongoConverter" />  
+	</bean>
+	
+	<!-- 扫描注解的bean,使用了component-scan  就无需annotation-config了 -->
+	<context:component-scan base-package="com.hengtiansoft.xinyunlian.test"/>
+	<!-- spring使用注解时，需要注册对应的注解bean,一个一个bean注册太麻烦，以下是批量注册 -->
+	<!-- <context:annotation-config /> -->
+	
+</beans>	
+
+	

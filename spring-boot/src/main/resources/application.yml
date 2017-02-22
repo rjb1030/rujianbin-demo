@@ -1,26 +1,41 @@
-server:
- port: 8080
- address: localhost
+server: 
+  port: 8080
+  address: localhost
+  sessionTimeout: 30
+  contextPath: /spring-boot
+ 
+spring: 
+  redis: 
+    cluster:
+      max-redirects: 10
+      nodes: 192.168.91.228:7000,192.168.91.228:7001,192.168.91.228:7002,192.168.91.228:7003,192.168.91.228:7004,192.168.91.228:7005
+    timeout: 30000
+    pool:
+      max-idle: 20
+      min-idle: 10
+      max-active: 1000
+      max-wait: -1
+    session: 
+      store-type: redis
+    http: 
+      encoding.charset: UTF-8
+      encoding.enable: true
+      encoding.force: true
 
 jdbc:
- driverClass: com.mysql.jdbc.Driver
- url: jdbc:mysql://192.168.91.228:8066/mytest?useUnicode=true&characterEncoding=utf-8
- username: root
- password: 123456
-    
-spring:     
- http:
-  encoding.charset: UTF-8
-  encoding.enable: true
-  encoding.force: true
+  driverClass: com.mysql.jdbc.Driver
+  url: jdbc:mysql://192.168.91.228:8066/mytest?useUnicode=true&characterEncoding=utf-8
+  username: root
+  password: 123456
+ 
 
 mybatis:
- typeAliasesPackage: com.rujianbin.boot.entity
- mapperLocations: classpath:/mapper/*.xml
- configLocation: classpath:/mybatis-config.xml
+  typeAliasesPackage: com.rujianbin.boot.entity
+  mapperLocations: classpath:/mapper/*.xml
+  configLocation: classpath:/mybatis-config.xml
 logging:
- level:
-  com.ibatis: DEBUG
+  level:
+    com.ibatis: DEBUG
     
     
     

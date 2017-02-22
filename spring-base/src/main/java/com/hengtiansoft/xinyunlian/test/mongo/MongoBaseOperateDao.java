@@ -21,7 +21,7 @@ public class MongoBaseOperateDao<T> implements IMongoOperateDao<T>{
 		clazz = getSuperClassGenricType(getClass());
 	}
 	
-	@Autowired
+	@Autowired(required=false)
 	protected MongoTemplate mongoTemplate;
 	
 	

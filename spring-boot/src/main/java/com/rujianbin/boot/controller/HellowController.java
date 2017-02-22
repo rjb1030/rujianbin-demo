@@ -1,10 +1,13 @@
 package com.rujianbin.boot.controller;
 
+import java.util.Collection;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +30,9 @@ public class HellowController {
 	@Autowired
 	private StringRedisTemplate stringRedisTemplate;
 	
+//	@Resource
+//	private CacheManager manage; 
+	
 	//127.0.0.1:8080/spring-boot/hellow
 	@RequestMapping("/hellow")  
     public String hellow(){  
@@ -43,6 +49,7 @@ public class HellowController {
 	@RequestMapping("/session")  
     public String session(HttpServletRequest request){  
 		HttpSession session = request.getSession();
+//		Collection<String> cc = manage.getCacheNames();
         return "session id ---->"+session.getId(); 
     }
 	

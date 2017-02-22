@@ -1,7 +1,8 @@
 server: 
   port: 8080
   address: localhost
-  sessionTimeout: 30
+  session:
+    timeout: 35
   contextPath: /spring-boot
  
 spring: 
@@ -15,12 +16,17 @@ spring:
       min-idle: 10
       max-active: 1000
       max-wait: -1
-    session: 
-      store-type: redis
-    http: 
-      encoding.charset: UTF-8
-      encoding.enable: true
-      encoding.force: true
+  cache:
+    cache-expires: cachename1@10,cachename2@20
+    cache-names: namespace1,namespace2,namespace3
+  session: 
+    store-type: REDIS
+    redis:
+      namespace:aaaa
+  http: 
+    encoding.charset: UTF-8
+    encoding.enable: true
+    encoding.force: true
 
 jdbc:
   driverClass: com.mysql.jdbc.Driver

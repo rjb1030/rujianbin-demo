@@ -14,7 +14,8 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * 不用默认的redisTemplate bean.    自定义redisTemplate bean   为了key的序列化
+ * 因默认的redisTemplate bean使用jdkSerializer. 故自定义redisTemplate bean   为了key的序列化
+ * 同时session存储的template，  常规业务使用的template  以及StringRedisTemplate是同一个接口不同实现
  * @author rujianbin
  *
  */

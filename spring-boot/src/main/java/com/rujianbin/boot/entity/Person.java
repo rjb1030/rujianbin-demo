@@ -8,6 +8,14 @@ public class Person implements Serializable{
 	private Integer id;
 	private String name;
 	private Integer age;
+	
+	public Person(){}
+	
+	public Person(String name,Integer age){
+		this.name=name;
+		this.age=age;
+	}
+	
 	public Integer getId() {
 		return id;
 	}

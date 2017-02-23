@@ -7,7 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
+import org.springframework.cache.Cache;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,8 +31,8 @@ public class HellowController {
 	@Autowired
 	private StringRedisTemplate stringRedisTemplate;
 	
-//	@Resource
-//	private CacheManager manage; 
+	@Autowired
+	private RedisCacheManager manage; 
 	
 	//127.0.0.1:8080/spring-boot/hellow
 	@RequestMapping("/hellow")  
@@ -49,7 +50,11 @@ public class HellowController {
 	@RequestMapping("/session")  
     public String session(HttpServletRequest request){  
 		HttpSession session = request.getSession();
-//		Collection<String> cc = manage.getCacheNames();
+		session.setAttribute("myname", "zhangsan张三");
+		session.setAttribute("myname333", new Person("张三",12));
+		Collection<String> cc = manage.getCacheNames();
+		Cache cache = manage.getCache("namespace1");
+		cache.put("ddfff:ddd:rrr", System.currentTimeMillis());
         return "session id ---->"+session.getId(); 
     }
 	

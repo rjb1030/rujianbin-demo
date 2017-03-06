@@ -1,24 +1,17 @@
 package com.rujianbin.boot;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import java.util.concurrent.CountDownLatch;
 
-/**
- * 启动spring boot jar包 :java -jar xxx.jar
- * @author rujianbin
- *
- */
-//@SpringBootApplication=@Configuration,@EnableAutoConfiguration,@ComponentScan
-@Configuration
-@EnableAutoConfiguration
-@ComponentScan(basePackages="com.rujianbin.boot")
+import org.springframework.boot.builder.SpringApplicationBuilder;
+
+
 public class Main {
 
-	public static void main(String[] args) {  
+	public static void main(String[] args) throws InterruptedException{  
         //第一个简单的应用，  
-        SpringApplication.run(Main.class,args);  
-        
+        new SpringApplicationBuilder().sources(Application.class,DubboApplication.class).web(false).run(args);
+//        非web环境启动时，主线程会退出。需要阻塞主线程
+        CountDownLatch closeLatch = new CountDownLatch(1);
+        closeLatch.await();
     }  
 }

@@ -1,0 +1,15 @@
+server: 
+  port: 7070
+  address: localhost
+  session:
+    timeout: 35
+  contextPath: /rujianbin-provider
+spring: 
+  profiles:
+    active: dev
+
+    
+    
+    
+    
+    

@@ -1,0 +1,63 @@
+server: 
+  port: 8080
+  address: localhost
+  session:
+    timeout: 35
+  contextPath: /spring-boot
+
+dubbo:
+  application:
+    name: rujianbin-boot
+  registry:
+    address: zookeeper://192.168.110.58:2181
+    file: /data/rujianbin-boot/registry.properties
+  protocol:
+    name: rest
+    port: 8088
+    keepalive: true
+    server: tomcat
+    threadpool: fixed
+    threads: 500
+    accepts: 100
+
+spring: 
+  redis: 
+    cluster:
+      max-redirects: 10
+      nodes: 10.5.4.155:7000,10.5.4.155:7001,10.5.4.155:7002,10.5.4.155:7003,10.5.4.155:7004,10.5.4.155:7005
+    timeout: 30000
+    pool:
+      max-idle: 20
+      min-idle: 10
+      max-active: 1000
+      max-wait: -1
+  cache:
+    type: REDIS
+    cache-expires: cachename1@10,cachename2@20
+    cache-names: namespace1,namespace2,namespace3
+  session: 
+    store-type: REDIS
+  http: 
+    encoding.charset: UTF-8
+    encoding.enable: true
+    encoding.force: true
+
+jdbc:
+  driverClass: com.mysql.jdbc.Driver
+  url: jdbc:mysql://192.168.91.228:8066/mytest?useUnicode=true&characterEncoding=utf-8
+  username: root
+  password: 123456
+ 
+
+mybatis:
+  typeAliasesPackage: com.rujianbin.boot.entity
+  mapperLocations: classpath:/mapper/*.xml
+  configLocation: classpath:/mybatis-config.xml
+logging:
+  level:
+    com.ibatis: DEBUG
+    
+    
+    
+    
+    

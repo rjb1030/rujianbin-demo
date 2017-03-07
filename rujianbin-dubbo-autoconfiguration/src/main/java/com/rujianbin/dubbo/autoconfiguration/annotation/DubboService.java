@@ -11,5 +11,5 @@ import java.lang.annotation.Target;
 @Documented
 public @interface DubboService {
 
-	String value() default "";
+	String version() default "";
 }

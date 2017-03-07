@@ -1,7 +1,12 @@
 spring: 
   profiles:
     active: dev
-
+server: 
+  port: 7080
+  address: localhost
+  session:
+    timeout: 35
+  contextPath: /rujianbin-consumer
     
     
     

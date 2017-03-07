@@ -11,7 +11,15 @@
   <artifactId>rujianbin-consumer</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>rujianbin-consumer</name>
-  <dependencies>  
+  <dependencies>
+  		<dependency>
+  			<groupId>rujianbin-api</groupId>
+			<artifactId>rujianbin-api</artifactId>
+  		</dependency>
+  		<dependency>
+	  		<groupId>rujianbin-dubbo-autoconfiguration</groupId>
+			<artifactId>rujianbin-dubbo-autoconfiguration</artifactId>
+  		</dependency>  
   		<dependency>
 		    <groupId>org.mybatis.spring.boot</groupId>
 		    <artifactId>mybatis-spring-boot-starter</artifactId>

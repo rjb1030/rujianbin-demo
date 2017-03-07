@@ -13,7 +13,7 @@ import com.rujianbin.api.dto.PersonBean;
 import com.rujianbin.dubbo.autoconfiguration.annotation.DubboService;
 
 @Path("/dubbo-restful")
-@DubboService
+@DubboService(version="jj-1.0.0")
 public interface DubboRestfulService {
 
 	@Path("/test/{param}")

@@ -23,6 +23,8 @@ http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <dubbo:registry address="${dubbo.registry.address}" timeout="20000" file="${dubbo.registry.file}" group="${dubbo.registry.group}"/>    
     
     <dubbo:provider accesslog="true"  token="false" timeout="20000" retries="0"/>
+    
+    <dubbo:consumer check="false"/>
  
     <dubbo:protocol name="${dubbo.protocol.name}" server="${dubbo.protocol.server}" port="${dubbo.protocol.port}" charset="UTF-8" threadpool="fixed" threads="${dubbo.protocol.threads}" accepts="${dubbo.protocol.accepts}"/>  
     

@@ -25,7 +25,6 @@ spring:
       max-wait: -1
   cache:
     type: REDIS
-    cache-expires: cachename1@10,cachename2@20
     cache-names: namespace1,namespace2,namespace3
   session: 
     store-type: REDIS

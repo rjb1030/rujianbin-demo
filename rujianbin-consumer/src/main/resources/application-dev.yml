@@ -60,3 +60,13 @@ mybatis:
     defaultStatementTimeout: 25000
     defaultExecutorType: REUSE
     useGeneratedKeys: true
+
+test:
+  rujianbin:
+    name: rjb
+    age: 11
+    id: 1234
+    map:
+      key1: my-key1
+      key2: my-key2
+      key3: my-key3

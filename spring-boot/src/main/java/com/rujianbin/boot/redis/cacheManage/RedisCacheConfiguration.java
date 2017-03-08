@@ -38,7 +38,7 @@
 //		}
 //
 //		public void setCacheExpires(String str) {
-//			//yml传入string  自己传成map处理
+//			
 //			System.out.println(str);
 ////			this.cacheExpires = ;
 //		}

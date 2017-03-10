@@ -50,6 +50,18 @@ spring:
     testOnReturn: false
     poolPreparedStatements: true
     maxPoolPreparedStatementPerConnectionSize: 20
+  data:
+    mongodb:
+      uri: mongodb://192.168.91.228:27015/testdb
+  freemarker:
+    variables:
+      static: http://127.0.0.1/static/
+      jsVersion: 1.0.0
+    cache: false
+    charset: UTF-8
+    template-loader-path: classpath:/template/freemarker/
+    settings:
+      template_update_delay: 0
     
 mybatis:
   typeAliasesPackage: com.rujianbin.provider.mybatis.entity

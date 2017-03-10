@@ -16,5 +16,6 @@
     <module>rujianbin-consumer</module>
     <module>rujianbin-boot-parant</module>
     <module>rujianbin-dubbo-autoconfiguration</module>
+    <module>rujianbin-freemark-autoconfiguration</module>
   </modules>
 </project>

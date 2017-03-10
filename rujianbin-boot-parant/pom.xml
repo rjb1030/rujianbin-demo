@@ -16,7 +16,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <rujianbin-api.version>0.0.1-SNAPSHOT</rujianbin-api.version>
     <dubbo-autoconfiguration.version>0.0.1-SNAPSHOT</dubbo-autoconfiguration.version>
-    
+    <freemark-autoconfiguration.version>0.0.1-SNAPSHOT</freemark-autoconfiguration.version>
     <javax.el-api.version>3.0.0</javax.el-api.version>
     <tomcat-juli.version>8.5.8</tomcat-juli.version>
     <druid.version>1.0.27</druid.version>
@@ -42,6 +42,11 @@
 	  		<groupId>rujianbin-dubbo-autoconfiguration</groupId>
 			<artifactId>rujianbin-dubbo-autoconfiguration</artifactId>
 			<version>${dubbo-autoconfiguration.version}</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>rujianbin-freemark-autoconfiguration</groupId>
+			<artifactId>rujianbin-freemark-autoconfiguration</artifactId>
+			<version>${freemark-autoconfiguration.version}</version>
   		</dependency>
 	  	<dependency>
 		    <groupId>org.mybatis.spring.boot</groupId>

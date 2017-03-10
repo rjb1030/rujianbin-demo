@@ -8,9 +8,6 @@ import com.hengtiansoft.xinyunlian.test.mongo.Person;
 @Service("personImpl")
 public class PersonImpl extends MongoBaseOperateDao<Person> {
 
-	
-	
-	@SuppressWarnings("unchecked")
 	public PersonImpl() {
 		super();
 	}

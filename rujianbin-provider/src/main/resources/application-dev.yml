@@ -72,3 +72,6 @@ mybatis:
     defaultStatementTimeout: 25000
     defaultExecutorType: REUSE
     useGeneratedKeys: true
+    
+
+

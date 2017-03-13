@@ -4,6 +4,8 @@ server:
   session:
     timeout: 35
   contextPath: /rujianbin-provider
+management:
+  port: 54000
 spring: 
   profiles:
     active: dev

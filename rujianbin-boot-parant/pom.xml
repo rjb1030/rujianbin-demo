@@ -3,9 +3,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>  
-        <groupId>org.springframework.boot</groupId>  
-        <artifactId>spring-boot-starter-parent</artifactId>  
-        <version>1.4.4.RELEASE</version>  
+        <groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-parent</artifactId>
+		<version>1.4.4.RELEASE</version>
   </parent> 
   <groupId>rujianbin-boot-parant</groupId>
   <artifactId>rujianbin-boot-parant</artifactId>
@@ -120,31 +120,7 @@
 		</dependency>
    	</dependencies>
   </dependencyManagement>
+
   <build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-			</plugin>
-		</plugins>
 	</build>
 </project>

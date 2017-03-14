@@ -62,6 +62,8 @@ spring:
     template-loader-path: classpath:/template/freemarker/
     settings:
       template_update_delay: 0
+  message:
+    cache-message-channel: rujianbin-redis-pub-sub-channel
     
 mybatis:
   typeAliasesPackage: com.rujianbin.provider.mybatis.entity

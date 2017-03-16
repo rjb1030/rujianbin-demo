@@ -17,5 +17,6 @@
     <module>rujianbin-boot-parant</module>
     <module>rujianbin-dubbo-autoconfiguration</module>
     <module>rujianbin-freemark-autoconfiguration</module>
+    <module>rujianbin-common-parent</module>
   </modules>
 </project>

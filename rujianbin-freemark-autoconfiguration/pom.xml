@@ -3,18 +3,18 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>rujianbin-boot-parant</groupId>
-    <artifactId>rujianbin-boot-parant</artifactId>
-    <version>20170301</version>
+    	<groupId>rujianbin-common-parent</groupId>
+		<artifactId>rujianbin-common-parent</artifactId>
+		<version>20170301</version>
   </parent>
   <groupId>rujianbin-freemark-autoconfiguration</groupId>
   <artifactId>rujianbin-freemark-autoconfiguration</artifactId>
   <version>${freemark-autoconfiguration.version}</version>
   <name>rujianbin-freemark-autoconfiguration</name>
   <dependencies>
-    <dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-freemarker</artifactId>
-	</dependency>
+	    <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-freemarker</artifactId>
+		</dependency>
   </dependencies>
 </project>

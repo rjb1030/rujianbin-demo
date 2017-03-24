@@ -20,18 +20,18 @@ public interface DubboRestfulService {
 	@GET
     @Produces("application/json; charset=UTF-8")
 	public String test(@PathParam("param") String param,@QueryParam("v") Long version);
-	
+
 	@Path("/age")
 	@GET
     @Produces("application/json; charset=UTF-8")
 	public String getAge();
-	
+
 	@Path("/update/person")
 	@POST
     @Produces("application/json; charset=UTF-8")
 	@Consumes("application/json; charset=UTF-8")
 	public DtoParam updatePerson(DtoParam p);
-	
+
 	@Path("/name/{name}")
 	@GET
     @Produces("application/json; charset=UTF-8")

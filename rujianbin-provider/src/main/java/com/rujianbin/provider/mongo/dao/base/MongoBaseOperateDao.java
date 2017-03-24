@@ -2,6 +2,7 @@ package com.rujianbin.provider.mongo.dao.base;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.LookupOperation;
+import org.springframework.data.mongodb.core.aggregation.MatchOperation;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+
+import com.google.common.collect.Lists;
+import com.mongodb.AggregationOutput;
+import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DBObject;
+import com.mongodb.util.JSON;
 
 public class MongoBaseOperateDao<T> implements IMongoOperateDao<T>{
 
@@ -89,6 +102,29 @@ public class MongoBaseOperateDao<T> implements IMongoOperateDao<T>{
   
         return (Class) params[index];  
     }
+
+	@Override
+	public CommandResult executeCommand(String jsonCommand) {
+		String matchStr = "{$match:{categroyId:{$gte:5}}}";
+        DBObject match = (DBObject) JSON.parse(matchStr);
+        String lookupStr = "{$lookup: {from: 'xinyunlian_category',localField: 'categroyId',foreignField: 'id',as: 'cc'}}";
+        DBObject lookup = (DBObject) JSON.parse(lookupStr);
+        AggregationOutput output = mongoTemplate.getCollection("xinyunlian_product").aggregate(Lists.newArrayList(match, lookup));
+        for(Iterator<DBObject> it = output.results().iterator();it.hasNext();){
+        	DBObject dBObject = it.next();
+        	System.out.println(dBObject.get("name"));
+        }
+        
+        
+        LookupOperation l = Aggregation.lookup("xinyunlian_category","categroyId","id","cc");
+        MatchOperation m = Aggregation.match(Criteria.where("categroyId").gte(5));
+        AggregationResults<BasicDBObject>  result = mongoTemplate.aggregate(Aggregation.newAggregation(Lists.newArrayList(l,m)), "xinyunlian_product", BasicDBObject.class);
+        List<BasicDBObject> results = result.getMappedResults();
+        for(BasicDBObject b: results){
+        	System.out.println(b.get("name"));
+        }
+        return null;
+	}
 
 	
 

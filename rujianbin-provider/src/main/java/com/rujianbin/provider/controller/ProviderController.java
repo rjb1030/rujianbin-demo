@@ -14,6 +14,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mongodb.CommandResult;
 import com.rujianbin.provider.mongo.dao.IProductDao;
 import com.rujianbin.provider.mongo.entity.Product;
 import com.rujianbin.provider.mybatis.entity.Person;
@@ -40,6 +41,8 @@ public class ProviderController {
 	    public String hellow(){ 
 			Query query = new Query();
 			List<Product> list =  productDao.find(query);
+			CommandResult r = productDao.executeCommand("{categoryName:'葡萄酒'}");
+			
 	        return "哈喽，Spring Boot ！- rujianbin-provider";  
 	    }  
 		

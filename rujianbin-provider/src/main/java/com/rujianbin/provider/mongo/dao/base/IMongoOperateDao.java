@@ -6,9 +6,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import com.mongodb.CommandResult;
+
 
 public interface IMongoOperateDao<T> {
 
+	
+	public CommandResult executeCommand(String jsonCommand);
+	
 	public boolean save(T entity);
 	
 	

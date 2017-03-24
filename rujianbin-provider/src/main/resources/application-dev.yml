@@ -2,7 +2,7 @@ dubbo:
   application:
     name: rujianbin-provider
   registry:
-    address: zookeeper://192.168.110.58:2181
+    address: zookeeper://192.168.91.228:2181
     group: rjb
     file: /data/rujianbin-provider/registry.properties
   protocol:
@@ -16,7 +16,7 @@ spring:
   redis: 
     cluster:
       max-redirects: 10
-      nodes: 10.5.4.155:7000,10.5.4.155:7001,10.5.4.155:7002,10.5.4.155:7003,10.5.4.155:7004,10.5.4.155:7005
+      nodes: 192.168.91.228:7000,192.168.91.228:7001,192.168.91.228:7002,192.168.91.228:7003,192.168.91.228:7004,192.168.91.228:7005
     timeout: 30000
     pool:
       max-idle: 20

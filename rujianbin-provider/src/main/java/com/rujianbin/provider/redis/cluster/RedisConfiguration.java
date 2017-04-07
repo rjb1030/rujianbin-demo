@@ -49,16 +49,16 @@ public class RedisConfiguration {
 	 * 2017年2月22日
 	 * author rujianbin
 	 */
-	@Bean("springSessionDefaultRedisSerializer")
-	public RedisSerializer sessionRedisTemplateSerializer(
-			RedisConnectionFactory connectionFactory) {
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.configure(JsonParser.Feature.IGNORE_UNDEFINED, true);
-		objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-		objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-		Jackson2JsonRedisSerializer serializer = new Jackson2JsonRedisSerializer(Object.class);
-		serializer.setObjectMapper(objectMapper);
-		
-		return serializer;
-	}
+//	@Bean("springSessionDefaultRedisSerializer")
+//	public RedisSerializer sessionRedisTemplateSerializer(
+//			RedisConnectionFactory connectionFactory) {
+//		ObjectMapper objectMapper = new ObjectMapper();
+//		objectMapper.configure(JsonParser.Feature.IGNORE_UNDEFINED, true);
+//		objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+//		objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+//		Jackson2JsonRedisSerializer serializer = new Jackson2JsonRedisSerializer(Object.class);
+//		serializer.setObjectMapper(objectMapper);
+//
+//		return serializer;
+//	}
 }

@@ -17,5 +17,10 @@ public class FreemarkController {
         model.put("message", "hello freemark");
         return "index";
     }
+
+    @RequestMapping("/login")
+    public String login(ModelMap model) {
+        return "login";
+    }
 	
 }

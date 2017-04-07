@@ -29,6 +29,7 @@
     <resteasy.version>3.1.0.Final</resteasy.version>
     <jetty.version>6.1.26</jetty.version>
     <zkclient.version>0.10</zkclient.version>
+	<commons-codec.version>0.10</commons-codec.version>
   </properties>
   <dependencyManagement>
 	 <dependencies>
@@ -112,6 +113,11 @@
 		    <artifactId>pagehelper</artifactId>
 		    <version>${pagehelper.version}</version>
 		</dependency>
+		 <dependency>
+			 <groupId>commons-codec</groupId>
+			 <artifactId>commons-codec</artifactId>
+			 <version>${commons-codec.version}</version>
+		 </dependency>
 	  </dependencies>
   </dependencyManagement>	
   

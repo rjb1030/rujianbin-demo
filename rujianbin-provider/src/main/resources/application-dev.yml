@@ -64,9 +64,13 @@ spring:
       template_update_delay: 0
   message:
     cache-message-channel: rujianbin-redis-pub-sub-channel
-    
+
+security:
+  enable-csrf: false
+  ignored: /css/**,/haha/**
+
 mybatis:
-  typeAliasesPackage: com.rujianbin.provider.mybatis.entity
+  typeAliasesPackage: com.rujianbin.provider.mybatis.entity,com.rujianbin.provider.security.entity
   mapperLocations: classpath:/mapper/*.xml
   configuration:
     logImpl: org.apache.ibatis.logging.slf4j.Slf4jImpl

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rujianbin.provider.security.dao.IAuthorityDao" >
+    <resultMap id="AuthorityEntity" type="com.rujianbin.provider.security.entity.AuthorityEntity" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="authority_code" property="authorityCode" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+    <select id="getAuthorityEntityList"  resultMap="AuthorityEntity">
+        select DISTINCT ra.id,ra.authority_code from rjb_authority ra
+        INNER JOIN rjb_role_authority_rela rrar on rrar.authority_code = ra.authority_code
+        INNER JOIN rjb_role rr on rr.id = rrar.role_id
+        INNER JOIN rjb_user_role_rela rurr on rurr.role_id=rr.id
+        INNER JOIN rjb_user ru on rurr.user_id=ru.id
+        where ru.id=#{userId}
+    </select>
+
+</mapper>

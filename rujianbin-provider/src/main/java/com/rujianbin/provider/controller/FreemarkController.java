@@ -18,9 +18,6 @@ public class FreemarkController {
         return "index";
     }
 
-    @RequestMapping("/login")
-    public String login(ModelMap model) {
-        return "login";
-    }
+
 	
 }

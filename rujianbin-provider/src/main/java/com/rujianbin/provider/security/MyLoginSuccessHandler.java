@@ -1,20 +1,27 @@
 package com.rujianbin.provider.security;
 
+import com.rujianbin.provider.common.ApplicationContextSelf;
+import com.rujianbin.provider.common.CookieKey;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Created by 汝建斌 on 2017/4/1.
  */
-public class LoginSuccessHandler  extends SimpleUrlAuthenticationSuccessHandler {
+public class MyLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    public LoginSuccessHandler(String defaultTargetUrl){
+
+    public MyLoginSuccessHandler(String defaultTargetUrl){
         super.setDefaultTargetUrl(defaultTargetUrl);
     }
 
@@ -29,6 +36,14 @@ public class LoginSuccessHandler  extends SimpleUrlAuthenticationSuccessHandler 
         System.out.println("用户 " + rjbSecurityUser.getName() + "，username="+rjbSecurityUser.getUsername()+" 登录");
 
         System.out.println("IP :"+getIpAddress(request));
+
+        //个人登录信息放入redis
+        String uuid = UUID.randomUUID().toString();
+        String cookieKeyStr = CookieKey.cookie_prefix+uuid;
+        RedisTemplate redisTemplate = ApplicationContextSelf.getBean("redisTemplate",RedisTemplate.class);
+        redisTemplate.opsForValue().set(cookieKeyStr,rjbSecurityUser);
+        Cookie cookie = new Cookie(CookieKey.cookie_user_key,cookieKeyStr);
+        response.addCookie(cookie);
 
         super.onAuthenticationSuccess(request, response, authentication);
     }

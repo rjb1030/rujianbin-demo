@@ -12,7 +12,7 @@ dubbo:
     threads: 500
     accepts: 100
 
-spring: 
+spring:
   redis: 
     cluster:
       max-redirects: 10

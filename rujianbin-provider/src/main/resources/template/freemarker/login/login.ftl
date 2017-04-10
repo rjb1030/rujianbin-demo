@@ -7,10 +7,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>Login Page</title>
-    <link rel="stylesheet" href="../css/login/login.css">
+    <link rel="stylesheet" href="css/login/login.css">
 </head>
 <body>
-<form action="login" class="login" method="post">
+<form action="" class="login" method="post">
     <h1>login page</h1>
     <input type="hidden"                        6
            name="${_csrf.parameterName}"

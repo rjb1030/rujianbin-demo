@@ -1,5 +1,6 @@
 package com.rujianbin.provider.security;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rujianbin.provider.security.entity.AuthorityEntity;
 import com.rujianbin.provider.security.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * Created by 汝建斌 on 2017/4/1.
  */
-public class RjbSecurityUser extends UserEntity implements UserDetails {
+public class RjbSecurityUser extends UserEntity implements UserDetails,Serializable {
 
     public RjbSecurityUser(){}
 
@@ -27,6 +28,7 @@ public class RjbSecurityUser extends UserEntity implements UserDetails {
         super.setAuthorityEntityList(user.getAuthorityEntityList());
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
@@ -45,26 +47,31 @@ public class RjbSecurityUser extends UserEntity implements UserDetails {
         return super.getUsername();
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return super.getPassword();
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

@@ -1,6 +1,6 @@
 package com.rujianbin.provider.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.rujianbin.provider.common.CookieKey;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.annotation.Resource;
@@ -27,23 +26,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception{
 
         http
+
                 //可以自己实现AbstractAuthenticationProcessingFilter做登录验证，此时successHandler也得实现在你的实现类里
 //                .addFilterBefore(usernamePasswordAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 //静态资源
-//                .antMatchers("/upload", "/css/**", "/js/**", "/images/**",
-//                        "/resources/**", "/lib/**", "/skin/**", "/template/**").permitAll()
-//                .antMatchers("/providerFMK/index").hasRole("USER")
+                .antMatchers("/images/**").permitAll()
+                //通用请求
+                .antMatchers("/common/**","/login/**").permitAll()
+                //权限控制请求
+                .antMatchers("/providerFMK/index").hasAuthority("p1:f1:read")
+                .antMatchers("/home").hasAuthority("p1:f1:read")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                    .loginPage("/providerFMK/login?no-permit")
-                    .loginProcessingUrl("/providerFMK/login")
-                    .failureUrl("/providerFMK/login?error")
+                    .loginPage("/login?no-permit")
+                    .loginProcessingUrl("/login")
+                    .failureUrl("/login?error")
                     .permitAll()
-                    .successHandler(loginSuccessHandler())
+                    .successHandler(myLoginSuccessHandler("/home"))
                 .and()
-                .logout().logoutSuccessUrl("/providerFMK/login").permitAll().invalidateHttpSession(true);
+                .logout()
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/login/logout", "GET"))
+                    .logoutSuccessHandler(myLogoutSuccessHandler("/login?logout"))
+                    .permitAll()
+                    .deleteCookies(CookieKey.cookie_user_key)
+                    .invalidateHttpSession(true);
 
     }
 
@@ -64,8 +72,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    public LoginSuccessHandler loginSuccessHandler(){
-        return new LoginSuccessHandler("/providerFMK/index");
+    public MyLoginSuccessHandler myLoginSuccessHandler(String defaultTargetUrl){
+        return new MyLoginSuccessHandler(defaultTargetUrl);
+    }
+
+    public MyLogoutSuccessHandle myLogoutSuccessHandler(String defaultTargetUrl){
+        return new MyLogoutSuccessHandle(defaultTargetUrl);
     }
 
 }

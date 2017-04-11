@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 汝建斌 on 2017/4/1.
@@ -42,9 +43,12 @@ public class MyLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler
         String cookieKeyStr = CookieKey.cookie_prefix+uuid;
         RedisTemplate redisTemplate = ApplicationContextSelf.getBean("redisTemplate",RedisTemplate.class);
         redisTemplate.opsForValue().set(cookieKeyStr,rjbSecurityUser);
+        redisTemplate.expire(cookieKeyStr,30, TimeUnit.MINUTES);
         Cookie cookie = new Cookie(CookieKey.cookie_user_key,cookieKeyStr);
         response.addCookie(cookie);
 
+        System.out.println("cookieKeyStr ----->"+cookieKeyStr);
+        System.out.println("successHandle sessionId----->"+request.getSession().getId());
         super.onAuthenticationSuccess(request, response, authentication);
     }
 

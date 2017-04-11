@@ -2,7 +2,7 @@ server:
   port: 7070
   address: localhost
   session:
-    timeout: 35
+    timeout: 600
   contextPath: /rujianbin-provider
 management:
   port: 54000

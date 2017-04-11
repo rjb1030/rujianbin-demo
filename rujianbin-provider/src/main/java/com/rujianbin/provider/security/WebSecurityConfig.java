@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                     .loginPage("/login?no-permit")
                     .loginProcessingUrl("/login")
-                    .failureUrl("/login?error")
+                    .failureHandler(myLoginFailureHandler("/login?error="))
                     .permitAll()
                     .successHandler(myLoginSuccessHandler("/home"))
                 .and()
@@ -58,8 +58,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         //自定义用户和权限查询
-        auth.userDetailsService(rjbUserDetailsService).passwordEncoder(passwordEncoder());
-        auth.eraseCredentials(false);
+
+        MyAuthenticationProvider provider = new MyAuthenticationProvider(false);
+        provider.setUserDetailsService(rjbUserDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        auth.authenticationProvider(provider);
+
+//        auth.userDetailsService(rjbUserDetailsService).passwordEncoder(passwordEncoder());
+//        auth.eraseCredentials(false);
+
 //        auth
 //                .inMemoryAuthentication()
 //                .withUser("rjb").password("1234").roles("USER");
@@ -74,6 +81,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     public MyLoginSuccessHandler myLoginSuccessHandler(String defaultTargetUrl){
         return new MyLoginSuccessHandler(defaultTargetUrl);
+    }
+
+    public MyLoginFailureHandler myLoginFailureHandler(String defaultTargetUrl){
+        return new MyLoginFailureHandler(defaultTargetUrl);
     }
 
     public MyLogoutSuccessHandle myLogoutSuccessHandler(String defaultTargetUrl){

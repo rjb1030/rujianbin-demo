@@ -30,7 +30,7 @@ public class HomeController {
             model.put("user",rjbSecurityUser.getName()+"("+rjbSecurityUser.getUsername()+")");
             model.put("authority",rjbSecurityUser.getAuthorities());
         }
-
+        System.out.println("sessionId----->"+request.getSession().getId());
         return "home/home";
     }
 

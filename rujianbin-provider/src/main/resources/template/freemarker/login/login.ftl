@@ -17,6 +17,7 @@
            value="${_csrf.token}"/>
     <input type="text" name="username" class="login-input" placeholder="Username" autofocus>
     <input type="password" name="password" class="login-input" placeholder="Password">
+    <input type="text" name="vCode" class="login-input" placeholder="验证码">
     <input type="submit" value="Login" class="login-submit">
     <p class="login-help"><a target="_blank" href="http://www.baidu.com">Forgot password?</a></p>
 </form>

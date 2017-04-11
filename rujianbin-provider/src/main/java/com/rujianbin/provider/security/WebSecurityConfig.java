@@ -1,16 +1,20 @@
 package com.rujianbin.provider.security;
 
 import com.rujianbin.provider.common.CookieKey;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by 汝建斌 on 2017/3/31.
@@ -22,13 +26,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource(name="rjbUserDetailsService")
     private RjbUserDetailsService rjbUserDetailsService;
 
+    @Resource(name="myAuthenticationDetailsSource")
+    private AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> myAuthenticationDetailsSource;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception{
 
         http
-
-                //可以自己实现AbstractAuthenticationProcessingFilter做登录验证，此时successHandler也得实现在你的实现类里
-//                .addFilterBefore(usernamePasswordAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 //静态资源
                 .antMatchers("/images/**").permitAll()
@@ -45,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .failureHandler(myLoginFailureHandler("/login?error="))
                     .permitAll()
                     .successHandler(myLoginSuccessHandler("/home"))
+                    .authenticationDetailsSource(myAuthenticationDetailsSource)
                 .and()
                 .logout()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/login/logout", "GET"))

@@ -1,11 +1,8 @@
 package com.rujianbin.provider.security;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
@@ -19,6 +16,8 @@ public class MyAuthenticationProvider extends DaoAuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException{
+        MyWebAuthenticationDetails details = (MyWebAuthenticationDetails)authentication.getDetails();
+        System.out.println("客户自定义数据-验证码："+details.getCaptcha());
         return super.authenticate(authentication);
     }
 

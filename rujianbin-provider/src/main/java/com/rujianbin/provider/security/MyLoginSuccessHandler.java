@@ -38,16 +38,18 @@ public class MyLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler
 
         System.out.println("IP :"+getIpAddress(request));
 
-        //个人登录信息放入redis
-        String uuid = UUID.randomUUID().toString();
-        String cookieKeyStr = CookieKey.cookie_prefix+uuid;
-        RedisTemplate redisTemplate = ApplicationContextSelf.getBean("redisTemplate",RedisTemplate.class);
-        redisTemplate.opsForValue().set(cookieKeyStr,rjbSecurityUser);
-        redisTemplate.expire(cookieKeyStr,30, TimeUnit.MINUTES);
-        Cookie cookie = new Cookie(CookieKey.cookie_user_key,cookieKeyStr);
-        response.addCookie(cookie);
+        //个人登录信息放入session (redis)
+//        String uuid = UUID.randomUUID().toString();
+//        String cookieKeyStr = CookieKey.cookie_prefix+uuid;
+//        RedisTemplate redisTemplate = ApplicationContextSelf.getBean("redisTemplate",RedisTemplate.class);
+//        redisTemplate.opsForValue().set(cookieKeyStr,rjbSecurityUser);
+//        redisTemplate.expire(cookieKeyStr,30, TimeUnit.MINUTES);
+//        Cookie cookie = new Cookie(CookieKey.cookie_user_key,cookieKeyStr);
+//        response.addCookie(cookie);
 
-        System.out.println("cookieKeyStr ----->"+cookieKeyStr);
+        request.getSession().setAttribute("userInfo",rjbSecurityUser);
+
+//        System.out.println("cookieKeyStr ----->"+cookieKeyStr);
         System.out.println("successHandle sessionId----->"+request.getSession().getId());
         super.onAuthenticationSuccess(request, response, authentication);
     }

@@ -42,13 +42,13 @@ public class RedisConfiguration {
 		return template;
 	}
 	
-	/**
-	 * 保存session的redisTemplate的默认序列化组件
-	 * @param connectionFactory
-	 * @return
-	 * 2017年2月22日
-	 * author rujianbin
-	 */
+//	/**
+//	 * 保存session的redisTemplate的默认序列化组件
+//	 * @param connectionFactory
+//	 * @return
+//	 * 2017年2月22日
+//	 * author rujianbin
+//	 */
 //	@Bean("springSessionDefaultRedisSerializer")
 //	public RedisSerializer sessionRedisTemplateSerializer(
 //			RedisConnectionFactory connectionFactory) {

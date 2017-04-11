@@ -19,9 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/home")
 public class HomeController {
 
-//    @Resource(name="redisTemplate")
-//    private RedisTemplate redisTemplate;
-
     @RequestMapping("")
     public String login(HttpServletRequest request, HttpServletResponse response,ModelMap model) {
         Object obj = request.getSession().getAttribute("userInfo");
@@ -30,12 +27,7 @@ public class HomeController {
             model.put("user",rjbSecurityUser.getName()+"("+rjbSecurityUser.getUsername()+")");
             model.put("authority",rjbSecurityUser.getAuthorities());
         }
-//        String user_key = CookieKey.getCookie(request,CookieKey.cookie_user_key);
-//        if(user_key!=null){
-//            RjbSecurityUser rjbSecurityUser  = (RjbSecurityUser)redisTemplate.opsForValue().get(user_key);
-//            model.put("user",rjbSecurityUser.getName()+"("+rjbSecurityUser.getUsername()+")");
-//            model.put("authority",rjbSecurityUser.getAuthorities());
-//        }
+
         System.out.println("sessionId----->"+request.getSession().getId());
         return "home/home";
     }

@@ -4,6 +4,7 @@ import com.rujianbin.provider.common.CookieKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,6 +33,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception{
 
+        http.exceptionHandling().accessDeniedHandler(myAccessDeniedHandler("/common/403"));
+
         http
                 .authorizeRequests()
                 //静态资源
@@ -40,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/common/**","/login/**").permitAll()
                 //权限控制请求
                 .antMatchers("/providerFMK/index").hasAuthority("p1:f1:read")
-                .antMatchers("/home").hasAuthority("p1:f1:read")
+                .antMatchers("/home").hasAuthority("p1:f1:read2")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -63,7 +66,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         //自定义用户和权限查询
-
         MyAuthenticationProvider provider = new MyAuthenticationProvider(false);
         provider.setUserDetailsService(rjbUserDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
@@ -96,4 +98,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new MyLogoutSuccessHandle(defaultTargetUrl);
     }
 
+    public MyAccessDeniedHandler myAccessDeniedHandler(String errorPage){
+        MyAccessDeniedHandler h = new MyAccessDeniedHandler();
+        h.setErrorPage(errorPage);
+        return h;
+    }
 }

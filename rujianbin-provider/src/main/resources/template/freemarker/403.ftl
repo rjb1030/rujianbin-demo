@@ -27,7 +27,7 @@
 </style>
 
 <div class="">
-    <a target="_blank" href="http://www.baidu.com"><img src="../images/404.png" width="100%" height="100%" alt="“真的很抱歉，我们搞丢了页面……”要不去首页看看？"></a></div>
+    <a target="_blank" href="http://www.baidu.com"><img src="/rujianbin-provider/images/403.png" width="100%" height="100%" alt="“真的很抱歉，我们搞丢了页面……”要不去首页看看？"></a></div>
 </span>
 </body>
 </html>

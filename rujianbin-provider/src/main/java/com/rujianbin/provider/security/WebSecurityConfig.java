@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/common/**","/login/**").permitAll()
                 //权限控制请求
                 .antMatchers("/providerFMK/index").hasAuthority("p1:f1:read")
-                .antMatchers("/home").hasAuthority("p1:f1:read2")
+                .antMatchers("/home").hasAuthority("p1:f1:read")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

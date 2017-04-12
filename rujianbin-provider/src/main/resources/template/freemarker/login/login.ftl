@@ -8,6 +8,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>Login Page</title>
     <link rel="stylesheet" href="css/login/login.css">
+    <script type="text/javascript" src="js/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $('#kaptcha').click(function(){
+                        var _t='common/kaptcha?'+new Date().getTime();
+                        $(this).attr("src",_t);
+            });
+        })
+    </script>
 </head>
 <body>
 <form action="" class="login" method="post">
@@ -17,7 +26,10 @@
            value="${_csrf.token}"/>
     <input type="text" name="username" class="login-input" placeholder="Username" autofocus>
     <input type="password" name="password" class="login-input" placeholder="Password">
-    <input type="text" name="vCode" class="login-input" placeholder="验证码">
+    <div>
+        <input type="text" name="vCode" class="login-input" style="display: inline;width: 90px;" placeholder="验证码">
+        <img src="common/kaptcha" id="kaptcha" style="width:100px;float:right;">
+    </div>
     <input type="submit" value="Login" class="login-submit">
     <p class="login-help"><a target="_blank" href="http://www.baidu.com">Forgot password?</a></p>
 </form>

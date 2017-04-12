@@ -1,5 +1,6 @@
 package com.rujianbin.provider.security;
 
+import com.rujianbin.provider.exception.KaptchaException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,6 +36,9 @@ public class MyLoginFailureHandler extends SimpleUrlAuthenticationFailureHandler
             }else if(exception instanceof BadCredentialsException){
                 System.out.println("登录失败：密码错误");
                 toUrl+="BadCredentialsException";
+            }else if(exception instanceof KaptchaException){
+                System.out.println("登录失败：验证码错误");
+                toUrl+="KaptchaException";
             }
             if(isUseForward()) {
                 request.getRequestDispatcher(toUrl).forward(request, response);

@@ -1,10 +1,8 @@
 package com.rujianbin.provider.security;
 
 import com.rujianbin.provider.common.CookieKey;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -38,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 //静态资源
-                .antMatchers("/images/**").permitAll()
+                .antMatchers("/images/**","/js/**").permitAll()
                 //通用请求
                 .antMatchers("/common/**","/login/**").permitAll()
                 //权限控制请求

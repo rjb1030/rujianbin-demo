@@ -129,6 +129,10 @@
 		  <groupId>commons-codec</groupId>
 		  <artifactId>commons-codec</artifactId>
 	  </dependency>
+	  <dependency>
+		  <groupId>com.google.code.kaptcha</groupId>
+		  <artifactId>kaptcha</artifactId>
+	  </dependency>
    </dependencies>
    <build>
         <plugins>

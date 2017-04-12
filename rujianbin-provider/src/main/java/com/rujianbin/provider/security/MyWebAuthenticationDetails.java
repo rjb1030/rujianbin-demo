@@ -1,5 +1,7 @@
 package com.rujianbin.provider.security;
 
+import com.google.code.kaptcha.Constants;
+import com.rujianbin.provider.exception.KaptchaException;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +16,9 @@ public class MyWebAuthenticationDetails extends WebAuthenticationDetails {
     public MyWebAuthenticationDetails(HttpServletRequest request){
         super(request);
         Captcha = request.getParameter("vCode");
+        if(Captcha==null || !Captcha.equals(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY))){
+            throw new KaptchaException("Captcha code error");
+        }
     }
 
     public String getCaptcha() {

@@ -1,14 +1,11 @@
-package com.rujianbin.provider.common;
+package com.rujianbin.provider.kaptcha;
 
 import com.google.code.kaptcha.Producer;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.ResourceUtils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -36,4 +33,5 @@ public class BeanConfig {
         defaultKaptcha.setConfig(config);
         return defaultKaptcha;
     }
+
 }

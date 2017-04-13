@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class CookieKey {
 
-    public static final String cookie_prefix="RJB-COOKIE-";
-
     public static final String cookie_user_key="ck_u";
 
     public static String getCookie(HttpServletRequest request,String cookieKey){

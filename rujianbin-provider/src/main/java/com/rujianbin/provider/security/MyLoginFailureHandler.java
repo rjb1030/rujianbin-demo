@@ -1,6 +1,6 @@
 package com.rujianbin.provider.security;
 
-import com.rujianbin.provider.exception.KaptchaException;
+import com.rujianbin.provider.security.exception.KaptchaException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

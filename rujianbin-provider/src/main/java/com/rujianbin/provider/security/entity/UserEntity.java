@@ -1,7 +1,6 @@
 package com.rujianbin.provider.security.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import sun.plugin2.message.Serializer;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;

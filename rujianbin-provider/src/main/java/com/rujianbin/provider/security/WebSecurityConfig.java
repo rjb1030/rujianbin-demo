@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //静态资源
                 .antMatchers("/images/**","/js/**").permitAll()
                 //通用请求
-                .antMatchers("/common/**","/login/**").permitAll()
+                .antMatchers("/common/**","/login/**","/websocket").permitAll()
                 //权限控制请求
                 .antMatchers("/providerFMK/index").hasAuthority("p1:f1:read")
                 .antMatchers("/home").hasAuthority("p1:f1:read")

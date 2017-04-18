@@ -16,12 +16,15 @@ websocket.onerror = function () {
 
 websocket.onopen = function () {
     console.log("WebSocket连接成功");
-    addMessage("系统","加入聊天室")
+    addMessage("系统","您成功聊天室")
 }
 
 websocket.onmessage = function (event) {
-    console.log(event.data);
-    addMessage("未知",event.data)
+    console.log(event);
+
+    var msg = eval("("+event.data+")");
+    addMessage(msg.from,msg.content)
+
 }
 
 websocket.onclose = function () {

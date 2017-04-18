@@ -1,17 +1,21 @@
 package com.rujianbin.provider.socket.websocket;
 
+import com.rujianbin.provider.security.RjbSecurityUser;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpSession;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * Created by 汝建斌 on 2017/4/14.
  */
 
-@ServerEndpoint("/websocket")
+@ServerEndpoint(value="/websocket",configurator = MyServerEndpointConfig.class,encoders = MyEncoder.class)
 @Component
 public class WebSocketServer {
 
@@ -19,9 +23,12 @@ public class WebSocketServer {
     private static CopyOnWriteArraySet<WebSocketServer> webSocketSet = new CopyOnWriteArraySet<WebSocketServer>();
 
     private Session session;
+    private HttpSession httpSession;
 
     @OnOpen
-    public void onOpen(Session session){
+    public void onOpen(Session session,EndpointConfig config){
+//        this.httpSession = (HttpSession) config.getUserProperties()
+//                .get(HttpSession.class.getName());
         this.session = session;
         webSocketSet.add(this);     //加入set中
         addOnlineCount();           //在线数加1
@@ -29,7 +36,8 @@ public class WebSocketServer {
         //群发消息
         for(WebSocketServer item: webSocketSet){
             try {
-                item.sendMessage(this.session.getId()+"加入聊天室");
+
+                item.sendObjectMessage("系统",getName()+"加入聊天室");
             } catch (IOException e) {
                 e.printStackTrace();
                 continue;
@@ -45,7 +53,7 @@ public class WebSocketServer {
         //群发消息
         for(WebSocketServer item: webSocketSet){
             try {
-                item.sendMessage(this.session.getId()+"离开聊天室");
+                item.sendObjectMessage("系统",getName()+"离开聊天室");
             } catch (IOException e) {
                 e.printStackTrace();
                 continue;
@@ -55,11 +63,11 @@ public class WebSocketServer {
 
     @OnMessage
     public void onMessage(String message, Session session) {
-        System.out.println("来自客户端的消息:" + message);
+        System.out.println("来自客户端("+getName()+")的消息:" + message);
         //群发消息
         for(WebSocketServer item: webSocketSet){
             try {
-                item.sendMessage(message);
+                item.sendObjectMessage(getName(),message);
             } catch (IOException e) {
                 e.printStackTrace();
                  continue;
@@ -75,6 +83,23 @@ public class WebSocketServer {
 
     public void sendMessage(String message) throws IOException{
         this.session.getBasicRemote().sendText(message);
+    }
+
+    public void sendObjectMessage(String from,String message) throws IOException{
+        Message msg = new Message();
+        msg.setFrom(from);
+        msg.setContent(message);
+        try {
+            this.session.getBasicRemote().sendObject(msg);
+        } catch (EncodeException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getName(){
+//        RjbSecurityUser user = (RjbSecurityUser)this.httpSession.getAttribute("userInfo");
+//        return user.getName()+session.getId();
+        return session.getId();
     }
 
     public static synchronized int getOnlineCount() {

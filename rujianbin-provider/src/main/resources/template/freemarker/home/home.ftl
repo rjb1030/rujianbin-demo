@@ -113,9 +113,9 @@
                     </article>
                 </div>
                 <div id="tab-7" class="tab">
-                        <#--<div style="width:700px;height:450px;margin:0 auto;">
-                            <iframe src="hbs-chat-room" style="width:700px;height:450px;"></iframe>
-                        </div>-->
+                        <div style="width:700px;height:450px;margin:0 auto;">
+                            <iframe src="/rujianbin-provider/home/chat-room" style="width:700px;height:450px;"></iframe>
+                        </div>
                 </div>
                 <div id="tab-8" class="tab">
                     <article>

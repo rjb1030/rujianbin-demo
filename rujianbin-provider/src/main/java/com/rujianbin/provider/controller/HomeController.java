@@ -32,5 +32,10 @@ public class HomeController {
         return "home/home";
     }
 
+    @RequestMapping("/chat-room")
+    public String chatRoom(HttpServletRequest request, HttpServletResponse response,ModelMap model) {
+        return "websocket/chat-room";
+    }
+
 
 }

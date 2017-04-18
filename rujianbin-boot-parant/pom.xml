@@ -14,6 +14,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <mybatis-spring-boot-starter.version>1.2.0</mybatis-spring-boot-starter.version>
+      <spring-boot-starter-websocket.version>1.4.4.RELEASE</spring-boot-starter-websocket.version>
   </properties>
   <dependencyManagement>
   	<dependencies>
@@ -22,6 +23,11 @@
 		    <artifactId>mybatis-spring-boot-starter</artifactId>
 		    <version>${mybatis-spring-boot-starter.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+            <version>${spring-boot-starter-websocket.version}</version>
+        </dependency>
    	</dependencies>
   </dependencyManagement>
 

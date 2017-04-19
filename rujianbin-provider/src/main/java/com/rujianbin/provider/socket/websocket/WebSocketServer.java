@@ -2,6 +2,7 @@ package com.rujianbin.provider.socket.websocket;
 
 import com.rujianbin.provider.security.RjbSecurityUser;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.*;
@@ -24,11 +25,13 @@ public class WebSocketServer {
 
     private Session session;
     private HttpSession httpSession;
+    private String nickname;
 
     @OnOpen
-    public void onOpen(Session session,EndpointConfig config){
+    public void onOpen( Session session, EndpointConfig config){
 //        this.httpSession = (HttpSession) config.getUserProperties()
 //                .get(HttpSession.class.getName());
+        this.nickname = nickname;
         this.session = session;
         webSocketSet.add(this);     //加入set中
         addOnlineCount();           //在线数加1
@@ -67,7 +70,9 @@ public class WebSocketServer {
         //群发消息
         for(WebSocketServer item: webSocketSet){
             try {
-                item.sendObjectMessage(getName(),message);
+                if(!item.getSession().getId().equals(session.getId())){
+                    item.sendObjectMessage(getName(),message);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
                  continue;
@@ -99,7 +104,11 @@ public class WebSocketServer {
     public String getName(){
 //        RjbSecurityUser user = (RjbSecurityUser)this.httpSession.getAttribute("userInfo");
 //        return user.getName()+session.getId();
-        return session.getId();
+        return nickname;
+    }
+
+    public Session getSession(){
+        return this.session;
     }
 
     public static synchronized int getOnlineCount() {

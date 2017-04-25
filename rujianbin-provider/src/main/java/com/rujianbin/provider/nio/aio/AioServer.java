@@ -8,9 +8,9 @@ import java.nio.channels.AsynchronousChannelGroup;
 import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 汝建斌 on 2017/4/25.
@@ -20,24 +20,22 @@ public class AioServer {
     private AsynchronousChannelGroup asynchronousChannelGroup;
     private AsynchronousServerSocketChannel serverSocketChannel;
 
-    private AsynchronousSocketChannel socketChannel;
+    private List<AioConnectionedClient> clientList = new ArrayList<AioConnectionedClient>();
 
-    public void setSocketChannel(AsynchronousSocketChannel socketChannel) {
-        this.socketChannel = socketChannel;
+    public static class AioConnectionedClient{
+        public AsynchronousSocketChannel socketChannel;
+        public MyAcceptCompletionHandler myAcceptCompletionHandler;
+        public MyWriteCompletionHandler myWriteCompletionHandler;
+        public MyReadCompletionHandler myReadCompletionHandler;
+        public ByteBuffer buffer;
     }
-
-    private MyAcceptCompletionHandler myAcceptCompletionHandler;
-    private MyWriteCompletionHandler myWriteCompletionHandler;
-    private MyReadCompletionHandler myReadCompletionHandler;
 
     public AioServer(){
         try {
-            myAcceptCompletionHandler = new MyAcceptCompletionHandler();
-            myWriteCompletionHandler = new MyWriteCompletionHandler();
-            myReadCompletionHandler = new MyReadCompletionHandler();
+
             //创建group AsynchronousChannelGroup绑定一个线程池，这个线程池执行两个任务：处理IO事件和派发CompletionHandler
             this.asynchronousChannelGroup = AsynchronousChannelGroup
-                    .withCachedThreadPool(Executors.newCachedThreadPool(), this.threadPoolSize);
+                    .withThreadPool(Executors.newFixedThreadPool(this.threadPoolSize));
             //AsynchronousServerSocketChannel可以绑定一个 AsynchronousChannelGroup，那么通过这个AsynchronousServerSocketChannel建立的连接都将同属于一个AsynchronousChannelGroup并共享资源
             this.serverSocketChannel = AsynchronousServerSocketChannel
                     .open(this.asynchronousChannelGroup);
@@ -57,32 +55,41 @@ public class AioServer {
     }
 
     public void pendingAccept() {
-        System.out.println("开始接收客户端请求。。。");
+        print("开始接收客户端请求。。。");
         if (this.serverSocketChannel.isOpen()) {
+            AioConnectionedClient client = new AioConnectionedClient();
+            client.myAcceptCompletionHandler = new MyAcceptCompletionHandler();
+            client.myWriteCompletionHandler = new MyWriteCompletionHandler();
+            client.myReadCompletionHandler = new MyReadCompletionHandler();
+            clientList.add(client);
             //accept方法的第一个参数是你想传给CompletionHandler的attchment，第二个参数就是注册的用于回调的CompletionHandler，最后返回结果Future<AsynchronousSocketChannel>
-            this.serverSocketChannel.accept(this,myAcceptCompletionHandler);
+            this.serverSocketChannel.accept(client,client.myAcceptCompletionHandler);
         } else {
             throw new IllegalStateException("serverSocketChannel has been closed");
         }
     }
 
+    public void print(String msg){
+        System.out.println(Thread.currentThread().getName()+" "+msg);
+    }
 
     //
-    private class MyAcceptCompletionHandler implements CompletionHandler<AsynchronousSocketChannel, AioServer> {
+    private class MyAcceptCompletionHandler implements CompletionHandler<AsynchronousSocketChannel, AioConnectionedClient> {
 
         final ByteBuffer buffer = ByteBuffer.allocate(1024);
 
         @Override
-        public void completed(AsynchronousSocketChannel socketChannel, AioServer attachment) {
+        public void completed(AsynchronousSocketChannel socketChannel, AioConnectionedClient client) {
             try {
-                System.out.println("Accept connection from " + socketChannel.getRemoteAddress());
-                attachment.setSocketChannel(socketChannel);
-                socketChannel.read(buffer,buffer,myReadCompletionHandler);
+                print("Accept connection from " + socketChannel.getRemoteAddress());
+                print("当前客户端连接数="+clientList.size());
+                client.socketChannel = socketChannel;
+                client.buffer=buffer;
+                socketChannel.read(buffer,client,client.myReadCompletionHandler);
             } catch (Exception e) {
                 e.printStackTrace();
             }finally{
-                System.out.println("继续准备接收客户端请求");
-                serverSocketChannel.accept(null,myAcceptCompletionHandler);
+                pendingAccept();
 //                try {
 //                    socketChannel.close();
 //                }catch (IOException e) {
@@ -92,22 +99,22 @@ public class AioServer {
         }
 
         @Override
-        public void failed(Throwable exc, AioServer attachment) {
-            System.out.println("接收请求失败 " + exc.getMessage());
+        public void failed(Throwable exc, AioConnectionedClient attachment) {
+            print("接收请求失败 " + exc.getMessage());
             exc.printStackTrace();
         }
     }
 
 
-    private class MyReadCompletionHandler implements CompletionHandler<Integer,ByteBuffer>{
+    private class MyReadCompletionHandler implements CompletionHandler<Integer,AioConnectionedClient>{
 
         final ByteBuffer buffer = ByteBuffer.allocate(1024);
 
         @Override
-        public void completed(Integer result, ByteBuffer attachment) {
+        public void completed(Integer result, AioConnectionedClient client) {
 
-            String msg =  new String(attachment.array());
-            System.out.println("接收到客户端数据："+msg);
+            String msg =  new String(client.buffer.array());
+            print("接收到客户端数据："+msg);
             String msg2 = msg.split("&")[0]+"& from server "+System.currentTimeMillis();
 
             buffer.clear();
@@ -118,34 +125,35 @@ public class AioServer {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            socketChannel.write(buffer,null,myWriteCompletionHandler);
+            client.socketChannel.write(buffer,client,client.myWriteCompletionHandler);
         }
 
         @Override
-        public void failed(Throwable exc, ByteBuffer attachment) {
-            System.out.println("读数据失败");
+        public void failed(Throwable exc, AioConnectionedClient attachment) {
+            print("读数据失败");
             exc.printStackTrace();
         }
     }
 
 
-    private class MyWriteCompletionHandler implements CompletionHandler<Integer,Object>{
+    private class MyWriteCompletionHandler implements CompletionHandler<Integer,AioConnectionedClient>{
 
         final ByteBuffer buffer = ByteBuffer.allocate(1024);
 
         @Override
-        public void completed(Integer result, Object attachment) {
-            System.out.println("向客户端发送字节 size="+result);
+        public void completed(Integer result, AioConnectionedClient client) {
+//            print("向客户端发送字节 size="+result);
             //第一个buffer是读取通道中的内容。第二个是传给MyReadHandle complete方法的attachment对应参数
             //因异步处理，当处理完后buffer会被写入数据，扔给handle处理
             buffer.clear();
-            socketChannel.read(buffer,buffer,myReadCompletionHandler);
+            client.buffer = buffer;
+            client.socketChannel.read(buffer,client,client.myReadCompletionHandler);
 //            System.out.println("接收到客户端数据："+new String(buffer.array()));//此处是没有数据打印的，因read是异步处理的
         }
 
         @Override
-        public void failed(Throwable exc, Object attachment) {
-            System.out.println("写数据失败");
+        public void failed(Throwable exc, AioConnectionedClient attachment) {
+            print("写数据失败");
             exc.printStackTrace();
         }
     }

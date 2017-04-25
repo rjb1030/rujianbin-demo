@@ -11,6 +11,8 @@ import java.nio.channels.CompletionHandler;
  */
 public class AioClient {
 
+    private String name;
+
     private AsynchronousSocketChannel client;
     private InetSocketAddress serverAddress = new InetSocketAddress("localhost",8111);
     private MyConnectHandle myConnectHandle;
@@ -18,8 +20,9 @@ public class AioClient {
     private MyReadHandle myReadHandle;
 
 
-    public AioClient(){
+    public AioClient(String name){
         try {
+            this.name=name;
             client = AsynchronousSocketChannel.open();
             myConnectHandle = new MyConnectHandle();
             myWriteHandler = new MyWriteHandler();
@@ -34,13 +37,17 @@ public class AioClient {
         client.connect(serverAddress, null, myConnectHandle);
     }
 
+    public void print(String msg){
+        System.out.println(Thread.currentThread().getName()+" "+name+" "+msg);
+    }
+
     private class MyConnectHandle implements CompletionHandler<Void,Object>{
 
         @Override
         public void completed(Void result, Object attachment) {
-            System.out.println("连接成功");
+            print("连接成功");
             //写需要回调handle
-            String msg = "hello & from client {}".replace("{}",String.valueOf(System.currentTimeMillis()));
+            String msg = ("hello & from client [] {} ").replace("{}",String.valueOf(System.currentTimeMillis())).replace("[]",name);
             client.write(ByteBuffer.wrap(msg.getBytes()),null,myWriteHandler);
         }
 
@@ -56,7 +63,7 @@ public class AioClient {
 
         @Override
         public void completed(Integer result, Object attachment) {
-            System.out.println("向服务端发送字节 size="+result);
+//            print("向服务端发送字节 size="+result);
             //第一个buffer是读取通道中的内容。第二个是传给MyReadHandle complete方法的attachment对应参数
             //因异步处理，当处理完后buffer会被写入数据，扔给handle处理
             buffer.clear();
@@ -66,7 +73,7 @@ public class AioClient {
 
         @Override
         public void failed(Throwable exc, Object attachment) {
-            System.out.println("写数据失败");
+            print("写数据失败");
             exc.printStackTrace();
         }
     }
@@ -79,8 +86,8 @@ public class AioClient {
         public void completed(Integer result, ByteBuffer attachment) {
 
             String msg =  new String(attachment.array());
-            System.out.println("接收到服务端数据："+msg);
-            String msg2 = msg.split("&")[0]+"& from client "+System.currentTimeMillis();
+            print("接收到服务端数据："+msg);
+            String msg2 = (msg.split("&")[0]+"& from client [] "+System.currentTimeMillis()).replace("[]",name);
 
             buffer.clear();
             buffer.put(msg2.getBytes());
@@ -95,13 +102,16 @@ public class AioClient {
 
         @Override
         public void failed(Throwable exc, ByteBuffer attachment) {
-            System.out.println("读数据失败");
+            print("读数据失败");
             exc.printStackTrace();
         }
     }
 
     public static void main(String[] args) {
-        new AioClient().connect();
+
+        for (int i=1;i<=10;i++) {
+            new AioClient("王"+i).connect();
+        }
         while(true){
             try {
                 Thread.sleep(1000);

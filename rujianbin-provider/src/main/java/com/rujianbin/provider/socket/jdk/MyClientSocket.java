@@ -16,6 +16,7 @@ public class MyClientSocket {
     public static void main(String[] args) {
         try{
 
+            //因本线程被 while(!readline.equals("bye"))循环阻塞    故发起多个client连接，可以多次执行main函数
             Socket socket=new Socket("127.0.0.1",4700);//向本机的4700端口发出客户请求
             BufferedReader sin=new BufferedReader(new InputStreamReader(System.in));//由系统标准输入设备构造BufferedReader对象
             PrintWriter os=new PrintWriter(socket.getOutputStream());//由Socket对象得到输出流，并构造PrintWriter对象
@@ -27,7 +28,7 @@ public class MyClientSocket {
                 public void run() {
                     while(true){
                         try {
-                            System.out.println(" from Server:"+is.readLine());//从Server读入一字符串，并打印到标准输出上
+                            System.out.println(" from Server:"+is.readLine()+"     当前线程---->"+Thread.currentThread().getName());//从Server读入一字符串，并打印到标准输出上
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -49,9 +50,10 @@ public class MyClientSocket {
 
             socket.close(); //关闭Socket
 
-            }catch(Exception e) {
+
+        }catch(Exception e) {
                 System.out.println("Error"+e); //出错，则打印出错信息
-            }
+        }
     }
 
 }

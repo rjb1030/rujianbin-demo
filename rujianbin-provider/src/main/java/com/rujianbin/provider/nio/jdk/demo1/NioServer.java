@@ -74,6 +74,8 @@ public class NioServer {
             while (iterator.hasNext()) {
                 SelectionKey selectionKey = iterator.next();
                 iterator.remove();
+                //注意，一个SelectionKey可以同时又多个感兴趣事件。这取决于注册时，关注了几个事件。注册时可以用“位或”操作，同时关心多个事件。SelectionKey.OP_READ | SelectionKey.OP_WRITE
+                //如果是多个感兴趣事件，则不能if else if了
                 if(selectionKey.isAcceptable()){
                     handleAccpet(selectionKey);
                 }else if(selectionKey.isReadable()){
@@ -114,11 +116,11 @@ public class NioServer {
         if (count > 0) {
             String receiveText = new String( myclient.receivebuffer.array()).trim();
             print("服务器端接受客户端数据--:"+receiveText);
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             myclient.channel.register(selector, SelectionKey.OP_WRITE);
         }else{
             print("服务器端接受客户端数据--:无数据");

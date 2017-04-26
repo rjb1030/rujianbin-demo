@@ -105,11 +105,11 @@ public class NioClient {
         if(count>0){
             String receiveText = new String( receivebuffer.array()).trim();
             print("客户端接受服务器端数据--:"+receiveText);
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             socketChannel.register(selector, SelectionKey.OP_WRITE);
         }else{
             print("客户端接受服务器端数据--:无数据");

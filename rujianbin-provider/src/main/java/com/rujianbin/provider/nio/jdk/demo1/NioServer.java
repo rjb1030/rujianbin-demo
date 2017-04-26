@@ -8,35 +8,37 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.Iterator;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Created by 汝建斌 on 2017/4/19.
+ * Created by 汝建斌 on 2017/4/26.
  */
 public class NioServer {
-    /*标识数字*/
-    private  int flag = 0;
+
     /*缓冲区大小*/
     private  int BLOCK = 4096;
-    /*接受数据缓冲区*/
-    private ByteBuffer sendbuffer = ByteBuffer.allocate(BLOCK);
-    /*发送数据缓冲区*/
-    private  ByteBuffer receivebuffer = ByteBuffer.allocate(BLOCK);
+    private static SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS");
     private Selector selector;
+    private InetSocketAddress address;
+    private ServerSocketChannel serverSocketChannel;
+    private ServerSocket serverSocket;
+    private Map<String,MyClient> clientMap =new HashMap<String,MyClient>();
 
-    public NioServer(int port) throws IOException {
+    public NioServer(Selector selector, InetSocketAddress address)throws IOException {
+
+        this.selector=selector;
+        this.address=address;
+
         // 打开服务器套接字通道
-        ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+        serverSocketChannel = ServerSocketChannel.open();
         // 服务器配置为非阻塞。socketChannel有非阻塞模式，fileChannel则没有非阻塞模式
         serverSocketChannel.configureBlocking(false);//与Selector一起使用，必须处于非阻塞模式。
         // 检索与此通道关联的服务器套接字
-        ServerSocket serverSocket = serverSocketChannel.socket();
+        serverSocket = serverSocketChannel.socket();
         // 进行服务的绑定
-        serverSocket.bind(new InetSocketAddress(port));
-        // 通过open()方法找到Selector
-        selector = Selector.open();
-        // 注册到selector，等待连接
+        serverSocket.bind(address);
         /**
          * SelectionKey和selector，channel的关系：
          * 一个selector上可以注册多个channel(即1个selector可以管理多个通道)
@@ -44,85 +46,116 @@ public class NioServer {
          * SelectionKey有channel和channel的引用
          * selector有所有注册在上面的SelectionKey集合
          */
-        serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
-        System.out.println("nio socket Server Start----:"+port);
+        serverSocketChannel.register(this.selector, SelectionKey.OP_ACCEPT);
+        print("nio socket Server Start----:"+address.getAddress()+":"+address.getPort());
     }
 
-    // 监听
-    private void listen() throws IOException {
+    private class MyClient{
+        public SocketChannel channel;
+        public ByteBuffer sendBuffer;
+        public ByteBuffer receivebuffer;
+
+        public MyClient(SocketChannel channel,ByteBuffer sendBuffer,ByteBuffer receivebuffer){
+            this.channel=channel;
+            this.sendBuffer=sendBuffer;
+            this.receivebuffer=receivebuffer;
+        }
+    }
+
+    public void listen()throws IOException {
         while (true) {
             // 选择一组键，并且相应的通道已经打开
-            selector.select();
+            this.selector.select();
             // 返回此选择器的已选择键集。
             Set<SelectionKey> selectionKeys = selector.selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeys.iterator();
             while (iterator.hasNext()) {
                 SelectionKey selectionKey = iterator.next();
                 iterator.remove();
-                handleKey(selectionKey);
+                if(selectionKey.isAcceptable()){
+                    handleAccpet(selectionKey);
+                }else if(selectionKey.isReadable()){
+                    handleRead(selectionKey);
+                }else if(selectionKey.isWritable()){
+                    handleWrite(selectionKey);
+                }
             }
         }
     }
 
+    public void print(String msg){
+        System.out.println(Thread.currentThread().getName()+" "+fm.format(new Date())+" "+msg);
+    }
 
-    // 处理请求
-    private void handleKey(SelectionKey selectionKey) throws IOException {
-        // 接受请求
-        ServerSocketChannel server = null;
-        SocketChannel client = null;
-        String receiveText;
-        String sendText;
-        int count=0;
-        // 测试此键的通道是否已准备好接受新的套接字连接。
-        if (selectionKey.isAcceptable()) {
-            // 返回为之创建此键的通道。
-            server = (ServerSocketChannel) selectionKey.channel();
-            // 接受到此通道套接字的连接。
-            // 此方法返回的套接字通道（如果有）将处于阻塞模式。
-            client = server.accept();
-            // 配置为非阻塞
-            client.configureBlocking(false);
-            // 注册到selector，等待连接
-            client.register(selector, SelectionKey.OP_READ);
-        } else if (selectionKey.isReadable()) {
-            // 返回为之创建此键的通道。
-            client = (SocketChannel) selectionKey.channel();
-            //将缓冲区清空以备下次读取
-            receivebuffer.clear();
-            //读取服务器发送来的数据到缓冲区中
-            count = client.read(receivebuffer);
-            if (count > 0) {
-                receiveText = new String( receivebuffer.array(),0,count);
-                System.out.println("服务器端接受客户端数据--:"+receiveText);
-                client.register(selector, SelectionKey.OP_WRITE);
-            }else{
-                System.out.println("服务器端接受客户端数据--:无数据");
+    private void handleAccpet(SelectionKey selectionKey)throws IOException{
+        // 返回为之创建此键的通道。
+        ServerSocketChannel server = (ServerSocketChannel) selectionKey.channel();
+        // 接受到此通道套接字的连接。
+        // 此方法返回的套接字通道（如果有）将处于阻塞模式。
+        SocketChannel client = server.accept();
+        clientMap.put(client.toString(),new MyClient(client,ByteBuffer.allocate(BLOCK),ByteBuffer.allocate(BLOCK)));
+        print("port:"+address.getPort()+" 当前客户端连接数="+clientMap.size());
+        // 配置为非阻塞
+        client.configureBlocking(false);
+        // 注册到selector，等待连接
+        client.register(selector, SelectionKey.OP_READ);
+    }
+
+    private void handleRead(SelectionKey selectionKey)throws IOException{
+        // 返回为之创建此键的通道。
+        SocketChannel client = (SocketChannel) selectionKey.channel();
+        MyClient myclient = clientMap.get(client.toString());
+        //将缓冲区清空以备下次读取
+        myclient.receivebuffer.clear();
+        //读取服务器发送来的数据到缓冲区中
+        int count = client.read(myclient.receivebuffer);
+        if (count > 0) {
+            String receiveText = new String( myclient.receivebuffer.array());
+            print("服务器端接受客户端数据--:"+receiveText);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        } else if (selectionKey.isWritable()) {
-            //将缓冲区清空以备下次写入
-            sendbuffer.clear();
-            // 返回为之创建此键的通道。
-            client = (SocketChannel) selectionKey.channel();
-            sendText="message from server--" + flag++;
-            //向缓冲区中输入数据
-            sendbuffer.put(sendText.getBytes());
-            //将缓冲区各标志复位,因为向里面put了数据标志被改变要想从中读取数据发向服务器,就要复位
-            sendbuffer.flip();
-            //输出到通道
-            client.write(sendbuffer);
-            System.out.println("服务器端向客户端发送数据--："+sendText);
-            client.register(selector, SelectionKey.OP_READ);
+            myclient.channel.register(selector, SelectionKey.OP_WRITE);
+        }else{
+            print("服务器端接受客户端数据--:无数据");
         }
     }
 
-    /**
-     * @param args
-     * @throws IOException
-     */
-    public static void main(String[] args) throws IOException {
-        // TODO Auto-generated method stub
-        int port = 8333;
-        NioServer server = new NioServer(port);
-        server.listen();
+    private void handleWrite(SelectionKey selectionKey)throws IOException{
+
+        // 返回为之创建此键的通道。
+        SocketChannel client = (SocketChannel) selectionKey.channel();
+        MyClient myclient = clientMap.get(client.toString());
+        String sendText="hello  i am server with port " + address.getPort();
+        //向缓冲区中输入数据
+        myclient.sendBuffer.clear();
+        myclient.sendBuffer.put(sendText.getBytes());
+        //将缓冲区各标志复位,因为向里面put了数据标志被改变要想从中读取数据发向服务器,就要复位
+        myclient.sendBuffer.flip();
+        //输出到通道
+        myclient.channel.write(myclient.sendBuffer);
+//        print("服务器端向客户端发送数据--："+sendText);
+        myclient.channel.register(selector, SelectionKey.OP_READ);
+    }
+
+    public static void main(String[] args) {
+        AtomicInteger aa = new AtomicInteger(0);
+        for(int i=1;i<=2;i++){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        new NioServer(Selector.open(),new InetSocketAddress("localhost",Integer.valueOf("811"+aa.incrementAndGet())))
+                                .listen();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
+        }
+
     }
 }

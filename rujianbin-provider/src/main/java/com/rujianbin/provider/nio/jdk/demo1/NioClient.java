@@ -90,7 +90,7 @@ public class NioClient {
             }
             print("完成连接!");
             sendbuffer.clear();
-            sendbuffer.put(("Hello,i am client "+name).getBytes());
+            sendbuffer.put(("Hello,i am client "+name+" @"+fm.format(new Date())).getBytes());
             sendbuffer.flip();
             socketChannel.write(sendbuffer);
         }
@@ -103,13 +103,13 @@ public class NioClient {
         //读取服务器发送来的数据到缓冲区中
         int count=socketChannel.read(receivebuffer);
         if(count>0){
-            String receiveText = new String( receivebuffer.array());
+            String receiveText = new String( receivebuffer.array()).trim();
             print("客户端接受服务器端数据--:"+receiveText);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
             socketChannel.register(selector, SelectionKey.OP_WRITE);
         }else{
             print("客户端接受服务器端数据--:无数据");
@@ -119,7 +119,7 @@ public class NioClient {
     private void handleWrite(SelectionKey selectionKey)throws IOException{
         sendbuffer.clear();
         socketChannel = (SocketChannel) selectionKey.channel();
-        String sendText = "Hello,i am client "+name;
+        String sendText = "Hello,i am client "+name+" @"+fm.format(new Date());
         sendbuffer.put(sendText.getBytes());
         //将缓冲区各标志复位,因为向里面put了数据标志被改变要想从中读取数据发向服务器,就要复位
         sendbuffer.flip();
@@ -130,14 +130,15 @@ public class NioClient {
 
 
     public static void main(String[] args) throws IOException{
+
+        //正常场景是 一个Selector可以注册多个Channel 即可以做到多路复用。此处为方便 一个selector一个channel
         AtomicInteger aa = new AtomicInteger(0);
-        for(int i=1;i<=10;i++){
-            final Selector selectot = Selector.open();
+        for(int i=1;i<=1000;i++){
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        new NioClient(selectot,new InetSocketAddress("localhost",Integer.valueOf("8111")),"张三"+aa.incrementAndGet())
+                        new NioClient(Selector.open(),new InetSocketAddress("localhost",Integer.valueOf("8111")),"张三"+aa.incrementAndGet())
                                 .listen();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -149,12 +150,11 @@ public class NioClient {
 
         AtomicInteger bb = new AtomicInteger(0);
         for(int i=1;i<=15;i++){
-            final Selector selectot = Selector.open();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        new NioClient(selectot,new InetSocketAddress("localhost",Integer.valueOf("8112")),"李四"+bb.incrementAndGet())
+                        new NioClient(Selector.open(),new InetSocketAddress("localhost",Integer.valueOf("8112")),"李四"+bb.incrementAndGet())
                                 .listen();
                     } catch (IOException e) {
                         e.printStackTrace();

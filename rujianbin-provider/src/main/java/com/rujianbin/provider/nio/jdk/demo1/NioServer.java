@@ -17,6 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class NioServer {
 
+
     /*缓冲区大小*/
     private  int BLOCK = 4096;
     private static SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS");
@@ -37,6 +38,7 @@ public class NioServer {
         serverSocketChannel.configureBlocking(false);//与Selector一起使用，必须处于非阻塞模式。
         // 检索与此通道关联的服务器套接字
         serverSocket = serverSocketChannel.socket();
+
         // 进行服务的绑定
         serverSocket.bind(address);
         /**
@@ -110,13 +112,13 @@ public class NioServer {
         //读取服务器发送来的数据到缓冲区中
         int count = client.read(myclient.receivebuffer);
         if (count > 0) {
-            String receiveText = new String( myclient.receivebuffer.array());
+            String receiveText = new String( myclient.receivebuffer.array()).trim();
             print("服务器端接受客户端数据--:"+receiveText);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
             myclient.channel.register(selector, SelectionKey.OP_WRITE);
         }else{
             print("服务器端接受客户端数据--:无数据");
@@ -128,7 +130,7 @@ public class NioServer {
         // 返回为之创建此键的通道。
         SocketChannel client = (SocketChannel) selectionKey.channel();
         MyClient myclient = clientMap.get(client.toString());
-        String sendText="hello  i am server with port " + address.getPort();
+        String sendText="hello  i am server with port " + address.getPort()+" @"+fm.format(new Date());
         //向缓冲区中输入数据
         myclient.sendBuffer.clear();
         myclient.sendBuffer.put(sendText.getBytes());

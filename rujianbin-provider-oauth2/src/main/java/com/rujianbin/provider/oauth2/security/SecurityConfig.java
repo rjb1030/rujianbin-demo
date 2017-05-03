@@ -87,6 +87,7 @@ public class SecurityConfig {
 //    @ConfigurationProperties(prefix="datasource.oauth")
     @ConfigurationProperties(prefix="spring.datasource")
     public DataSource secondaryDataSource() {
-        return DataSourceBuilder.create().build();
+        DataSource datasource =  DataSourceBuilder.create().build();
+        return datasource;
     }
 }

@@ -16,7 +16,19 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ *
  * Created by 汝建斌 on 2017/3/31.
+ *
+ * 首先会去到 OncePerRequestFilter 类的 doFilter 方法，执行doFilterInternal 方法
+ *
+ *
+ *  public void configure(WebSecurity web) throws Exception {...}
+    protected void configure(HttpSecurity http) throws Exception {...}
+    protected void configure(AuthenticationManagerBuilder auth) {...}
+ *
+ * HttpSecurity：一般用它来具体控制权限，角色，url等安全的东西。
+   AuthenticationManagerBuilder：用来做登录认证的。具体的注释，看org.springframework.security.config.annotation.web.configuration 包的 WebSecurityConfigurerAdapter 类的 protected void configure(AuthenticationManagerBuilder auth) throws Exception {...}方法的注释，很清楚，注释也教了怎么用这个东西。
+   WebSecurity：For example, if you wish to ignore certain requests.
  */
 @Configuration
 @EnableWebSecurity

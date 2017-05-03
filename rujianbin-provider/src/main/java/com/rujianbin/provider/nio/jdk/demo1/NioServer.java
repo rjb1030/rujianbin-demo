@@ -45,7 +45,7 @@ public class NioServer {
          * SelectionKey和selector，channel的关系：
          * 一个selector上可以注册多个channel(即1个selector可以管理多个通道)
          * 一个channel注册在一个selector上  产生一个SelectionKey（selector+channel 构建一个SelectionKey），channel的keys持有该引用。该SelectionKey里可以有多个就绪事件
-         * SelectionKey有channel和channel的引用
+         * SelectionKey有selector和channel的引用
          * selector有所有注册在上面的SelectionKey集合
          */
         serverSocketChannel.register(this.selector, SelectionKey.OP_ACCEPT);

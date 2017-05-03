@@ -1,0 +1,16 @@
+server: 
+  port: 7071
+  address: localhost
+  session:
+    timeout: 600
+  contextPath: /rujianbin-provider-oauth2
+spring: 
+  profiles:
+    active: dev
+
+
+    
+    
+    
+    
+    

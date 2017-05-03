@@ -1,0 +1,40 @@
+
+
+spring:
+  http: 
+    encoding.charset: UTF-8
+    encoding.enable: true
+    encoding.force: true
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.91.228:3322/oauth2?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true
+    username: root
+    password: 123456
+    initialSize: 10
+    minIdle: 10
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+
+security:
+  enable-csrf: false
+  ignored: /css/**,/haha/**
+  user:
+    password: 123
+
+oauth2:
+    OAuth2ClientId: a
+    OAuth2ClientSecret: b
+    Oauth2AccesTokenUri: www.baidu.com
+
+    
+
+

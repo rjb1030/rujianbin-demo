@@ -86,7 +86,7 @@ public class NioClient {
         if (socketChannel.isConnectionPending()) {
             //非阻塞模式finishConnect判断是否连接成功。阻塞模式下finishConnect方法也会阻塞，直到连接成功
             while (!socketChannel.finishConnect()){
-
+                print("还是连接中..........");
             }
             print("完成连接!");
             sendbuffer.clear();

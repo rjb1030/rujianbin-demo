@@ -18,5 +18,6 @@
     <module>rujianbin-dubbo-autoconfiguration</module>
     <module>rujianbin-freemark-autoconfiguration</module>
     <module>rujianbin-common-parent</module>
+    <module>rujianbin-provider-oauth2</module>
   </modules>
 </project>

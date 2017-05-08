@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,10 +41,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource(name="myAuthenticationDetailsSource")
     private AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> myAuthenticationDetailsSource;
 
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring().antMatchers("/webjars/**", "/images/**");
+//    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception{
 
+        //set 'X-Frame-Options' to 'DENY'问题
         http.headers().frameOptions().sameOrigin();
+
         http.exceptionHandling().accessDeniedHandler(myAccessDeniedHandler("/common/403"));
 
         http

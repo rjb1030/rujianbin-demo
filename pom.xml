@@ -19,5 +19,9 @@
     <module>rujianbin-freemark-autoconfiguration</module>
     <module>rujianbin-common-parent</module>
     <module>rujianbin-provider-oauth2</module>
+      <module>rujianbin-provider-oauth2-githubdemo</module>
+      <module>rujianbin-provider-oauth2-server</module>
+      <module>rujianbin-oauth2</module>
+      <module>rujianbin-security-oauth2</module>
   </modules>
 </project>

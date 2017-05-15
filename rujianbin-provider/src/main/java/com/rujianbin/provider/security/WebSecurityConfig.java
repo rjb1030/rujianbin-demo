@@ -53,7 +53,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().sameOrigin();
 
         http.exceptionHandling().accessDeniedHandler(myAccessDeniedHandler("/common/403"));
-
         http
                 .authorizeRequests()
                 //静态资源

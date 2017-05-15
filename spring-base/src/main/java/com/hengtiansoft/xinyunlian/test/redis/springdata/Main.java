@@ -32,13 +32,13 @@ public class Main {
 		redisTemplate.convertAndSend("java1", new TestBean("哈哈1",23));
 		redisTemplate.convertAndSend("java2", new TestBean("哈哈2",23));
 		System.out.println("已发送信息");
-		
+
 		//数据储存 key-value
 		ValueOperations<String,TestBean> ops = redisTemplate.opsForValue();
 		ops.set("rujianbin-key", new TestBean("哈哈value",56),100,TimeUnit.MILLISECONDS);//100毫秒超时
 		TestBean bean = (TestBean)ops.get("rujianbin-key");
 		System.out.println("缓存数据value---"+bean.getName());
-		
+
 		//list操作，可以用作队列
 		ListOperations<String,TestBean> opsList = redisTemplate.opsForList();
 		opsList.leftPush("rujianbin-list", new TestBean("哈哈list",56));
@@ -47,7 +47,7 @@ public class Main {
 		System.out.println("缓存数据List---"+beanL.getName());
 		TestBean beanL2 = opsList.rightPop("rujianbin-list");
 		System.out.println("缓存数据List---"+beanL2.getName());
-		
+
 		//set操作。和list的区别是随机弹出
 		SetOperations<String,TestBean> opsSet = redisTemplate.opsForSet();
 		opsSet.add("rujianbin-set", new TestBean("哈哈Set",57));
@@ -56,8 +56,8 @@ public class Main {
 		TestBean beanS2 = opsSet.pop("rujianbin-set");
 		System.out.println("缓存数据Set---"+beanS.getName());
 		System.out.println("缓存数据Set---"+beanS2.getName());
-		
-		
+
+
 		ZSetOperations<String,TestBean> opsZSet = redisTemplate.opsForZSet();
 		opsZSet.add("rujianbin-zset", new TestBean("哈哈zSet1",57),1);
 		opsZSet.add("rujianbin-zset", new TestBean("哈哈zSet2",57),2);
@@ -79,7 +79,7 @@ public class Main {
 		TestBean beanH2 = opsHash.get("rujianbin-hash", "哈哈hash1");
 		System.out.println("缓存数据Hash---"+beanH.getName());
 		System.out.println("缓存数据Hash---"+beanH2.getName());
-		
+
 		System.exit(1);
 	}
 }

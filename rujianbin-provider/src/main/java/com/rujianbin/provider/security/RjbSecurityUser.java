@@ -76,4 +76,20 @@ public class RjbSecurityUser extends UserEntity implements UserDetails,Serializa
     public boolean isEnabled() {
         return true;
     }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj instanceof RjbSecurityUser){
+            RjbSecurityUser tmp = (RjbSecurityUser)obj;
+            if(getUsername()!=null && tmp!=null && getUsername().equals(tmp.getUsername())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode(){
+        return getUsername().hashCode();
+    }
 }

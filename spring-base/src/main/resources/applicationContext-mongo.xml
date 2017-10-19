@@ -42,7 +42,7 @@
 	</bean>
 	
 	<!-- 扫描注解的bean,使用了component-scan  就无需annotation-config了 -->
-	<context:component-scan base-package="com.hengtiansoft.xinyunlian.test"/>
+	<context:component-scan base-package="com.rujianbin"/>
 	<!-- spring使用注解时，需要注册对应的注解bean,一个一个bean注册太麻烦，以下是批量注册 -->
 	<!-- <context:annotation-config /> -->
 	

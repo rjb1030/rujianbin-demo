@@ -10,24 +10,19 @@
 	
 	<import resource="classpath*:env/*/applicationContext-mvc.xml"/>
 
-	<context:component-scan base-package="com.hengtiansoft.xinyunlian" use-default-filters="false">
+	<context:component-scan base-package="com.rujianbin" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 
 	<mvc:annotation-driven validator="validator" >
 	<mvc:message-converters>
-		<bean id="wsMessageConverter" class="com.hengtiansoft.xinyunlian.web.WSJackson2HttpMessageConverter">
-			<property name="objectMapper" ref="wsObjectMapper" />
-		</bean>
 		<bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 			<property name="objectMapper" ref="jacksonObjectMapper" />
 		</bean>
 	</mvc:message-converters> 
 	</mvc:annotation-driven> 
 	
-	<bean id="wsObjectMapper" class="com.hengtiansoft.xinyunlian.util.json.WSObjectMapper">
-	</bean>
-	
+
 	<bean id="jacksonObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper">
 		<property name="filters" ref="withOutFail"></property>
 	</bean>

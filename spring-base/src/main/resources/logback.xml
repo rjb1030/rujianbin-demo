@@ -31,15 +31,11 @@
 	<root level="warn">
 		<appender-ref ref="console" />
 	</root>
-	<logger name="com.hengtiansoft.xinyunlian" level="info">
+	<logger name="com.rujianbin" level="info">
 		<appender-ref ref="file" />
 	</logger>
 	
-	<logger name="com.hengtiansoft.xinyunlian.eia.common.util.RedisLogger" level = "info">
-		<appender-ref ref="LOGSTASH" />
-	</logger>
-	
-	<logger name="com.hengtiansoft.xinyunlian" level = "info"/>
+
 	<logger name="org.springframework.beans" level = "error"/>
 	<logger name="org.springframework.web" level = "error"/>
 	<logger name="org.springframework.context" level = "error"/>

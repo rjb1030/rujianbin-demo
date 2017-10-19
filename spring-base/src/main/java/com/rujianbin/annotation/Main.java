@@ -7,7 +7,7 @@ public class Main {
 
 	public static void main(String[] args) throws Exception{
 		//读取类注解
-		Class clazz = Class.forName("com.hengtiansoft.xinyunlian.test.annotation.AnnotationTEST");
+		Class clazz = Class.forName("com.rujianbin.annotation.AnnotationTEST");
 		if(clazz.isAnnotationPresent(MyAnnotation_type.class)){
 			System.out.println("AnnotationTEST类有注解");
 		}

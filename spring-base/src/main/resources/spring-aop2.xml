@@ -12,7 +12,7 @@
        default-lazy-init="false" default-merge="false"  default-autowire-candidates="no" default-init-method="" default-destroy-method="">
 
       	<!-- 激活组件扫描功能,在包aop2及其子包下面自动扫描通过注解配置的组件 -->
-		<context:component-scan base-package="com.hengtiansoft.xinyunlian.test.aop2"/>
+		<context:component-scan base-package="com.rujianbin.aop2"/>
 		
 		<!-- 启动@AspectJ支持     使用schema配置或者bean配置，2选1-->
   <!--  <bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator"></bean>--> 

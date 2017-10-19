@@ -107,18 +107,18 @@ public class MongoBaseOperateDao<T> implements IMongoOperateDao<T>{
 	public CommandResult executeCommand(String jsonCommand) {
 		String matchStr = "{$match:{categroyId:{$gte:5}}}";
         DBObject match = (DBObject) JSON.parse(matchStr);
-        String lookupStr = "{$lookup: {from: 'xinyunlian_category',localField: 'categroyId',foreignField: 'id',as: 'cc'}}";
+        String lookupStr = "{$lookup: {from: 'test_category',localField: 'categroyId',foreignField: 'id',as: 'cc'}}";
         DBObject lookup = (DBObject) JSON.parse(lookupStr);
-        AggregationOutput output = mongoTemplate.getCollection("xinyunlian_product").aggregate(Lists.newArrayList(match, lookup));
+        AggregationOutput output = mongoTemplate.getCollection("test_product").aggregate(Lists.newArrayList(match, lookup));
         for(Iterator<DBObject> it = output.results().iterator();it.hasNext();){
         	DBObject dBObject = it.next();
         	System.out.println(dBObject.get("name"));
         }
         
         
-        LookupOperation l = Aggregation.lookup("xinyunlian_category","categroyId","id","cc");
+        LookupOperation l = Aggregation.lookup("test_category","categroyId","id","cc");
         MatchOperation m = Aggregation.match(Criteria.where("categroyId").gte(5));
-        AggregationResults<BasicDBObject>  result = mongoTemplate.aggregate(Aggregation.newAggregation(Lists.newArrayList(l,m)), "xinyunlian_product", BasicDBObject.class);
+        AggregationResults<BasicDBObject>  result = mongoTemplate.aggregate(Aggregation.newAggregation(Lists.newArrayList(l,m)), "test_product", BasicDBObject.class);
         List<BasicDBObject> results = result.getMappedResults();
         for(BasicDBObject b: results){
         	System.out.println(b.get("name"));

@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection="xinyunlian_product")
+@Document(collection="test_product")
 public class Product implements Serializable{
 
 	private static final long serialVersionUID = 7441614987108350053L;

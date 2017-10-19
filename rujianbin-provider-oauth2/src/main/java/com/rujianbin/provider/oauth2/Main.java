@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContext;
 import javax.security.auth.message.config.AuthConfigFactory;
 
 /**
- * Created by rujianbin@xinyunlian.com on 2017/6/1.
+ * Created by rujianbin@.com on 2017/6/1.
  */
 public class Main {
 

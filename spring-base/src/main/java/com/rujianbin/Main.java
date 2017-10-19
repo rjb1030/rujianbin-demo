@@ -3,7 +3,7 @@ package com.rujianbin;
 import org.springframework.web.util.HtmlUtils;
 
 /**
- * Created by rujianbin@xinyunlian.com on 2017/5/10.
+ * Created by rujianbin@.com on 2017/5/10.
  */
 public class Main {
 

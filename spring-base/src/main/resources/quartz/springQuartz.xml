@@ -10,7 +10,7 @@
  	<bean id="quantzjobBean1" class="org.springframework.scheduling.quartz.JobDetailBean">
         <property name="jobClass">
             <!-- 实现了org.springframework.scheduling.quartz.QuartzJobBean的JobBean -->
-            <value>com.hengtiansoft.xinyunlian.test.quartz.集成spring.QuartzJobImpl</value>
+            <value>com.rujianbin.quartz.集成spring.QuartzJobImpl</value>
         </property>
         <!-- 调用业务逻辑 -->
         <property name="jobDataAsMap">
@@ -44,7 +44,7 @@
  	<bean id="quantzjobBean2" class="org.springframework.scheduling.quartz.JobDetailBean">
         <property name="jobClass">
             <!-- 实现了org.springframework.scheduling.quartz.QuartzJobBean的JobBean -->
-            <value>com.hengtiansoft.xinyunlian.test.quartz.集成spring.QuartzJobImpl</value>
+            <value>com.rujianbin.quartz.集成spring.QuartzJobImpl</value>
         </property>
         <!-- 调用业务逻辑 -->
         <property name="jobDataAsMap">

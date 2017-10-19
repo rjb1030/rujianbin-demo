@@ -15,7 +15,7 @@
 
 	<task:annotation-driven /> <!-- 定时器开关-->  
 
-	<bean id="myTaskXml" class="com.hengtiansoft.xinyunlian.test.quartz.自带定时.MyXMLJob"></bean>
+	<bean id="myTaskXml" class="com.rujianbin.quartz.自带定时.MyXMLJob"></bean>
 	<task:scheduled-tasks>  <!-- 注解配置的见 -->
         <task:scheduled ref="myTaskXml" method="show" cron="*/5 * * * * ?" />  
         <task:scheduled ref="myTaskXml" method="print" cron="*/10 * * * * ?"/>  

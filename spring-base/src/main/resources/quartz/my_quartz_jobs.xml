@@ -16,7 +16,7 @@
 		  <job>  
 			   <name>job1_xml配置</name>   
 			   <group>jobGroup1_xml配置</group>  
-			   <job-class>com.hengtiansoft.xinyunlian.test.quartz.编程式.JobImpl</job-class>   
+			   <job-class>com.rujianbin.quartz.编程式.JobImpl</job-class>
 			   <volatility>false</volatility>   
 			   <durability>false</durability>   
 			   <recover>false</recover>
@@ -42,7 +42,7 @@
 		  <job>  
 			   <name>job2_xml配置</name>   
 			   <group>jobGroup2_xml配置</group>  
-			   <job-class>com.hengtiansoft.xinyunlian.test.quartz.编程式.JobImpl</job-class>   
+			   <job-class>com.rujianbin.quartz.编程式.JobImpl</job-class>
 			   <volatility>false</volatility>   
 			   <durability>false</durability>   
 			   <recover>false</recover>

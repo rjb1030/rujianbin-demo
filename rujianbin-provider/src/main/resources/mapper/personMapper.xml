@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rujianbin.provider.mybatis.dao.IPersonDao" >
-  <resultMap id="personMap" type="com.rujianbin.provider.mybatis.entity.Person" >
+<mapper namespace="com.rujianbin.provider.oauth2.mybatis.dao.IPersonDao" >
+  <resultMap id="personMap" type="com.rujianbin.provider.oauth2.mybatis.entity.Person" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="age" property="age" jdbcType="INTEGER" />

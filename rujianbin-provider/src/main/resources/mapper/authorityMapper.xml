@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.rujianbin.provider.security.dao.IAuthorityDao" >
-    <resultMap id="AuthorityEntity" type="com.rujianbin.provider.security.entity.AuthorityEntity" >
+<mapper namespace="com.rujianbin.provider.oauth2.security.dao.IAuthorityDao" >
+    <resultMap id="AuthorityEntity" type="com.rujianbin.provider.oauth2.security.entity.AuthorityEntity" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="authority_code" property="authorityCode" jdbcType="VARCHAR" />
     </resultMap>

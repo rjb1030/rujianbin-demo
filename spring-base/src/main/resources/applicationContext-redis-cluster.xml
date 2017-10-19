@@ -21,7 +21,7 @@
         <property name="testWhileIdle" value="true"/>
     </bean>
  
-    <bean id="jedisCluster" class="com.hengtiansoft.xinyunlian.test.redis.jedisCluster.JedisClusterFactory">
+    <bean id="jedisCluster" class="com.rujianbin.redis.jedisCluster.JedisClusterFactory">
     	<property name="jedisPoolConfig" ref="jedisPoolConfig" />
     	<property name="redisHostAndPort" value="192.168.91.228:7000,192.168.91.228:7001,192.168.91.228:7002,192.168.91.228:7003,192.168.91.228:7004,192.168.91.228:7005"></property>
     </bean>

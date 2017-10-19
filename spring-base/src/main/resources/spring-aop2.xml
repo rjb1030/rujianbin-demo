@@ -20,6 +20,6 @@
 		<aop:aspectj-autoproxy /> 
 	
       
-       <bean id="yellowHuman-2" class="com.hengtiansoft.xinyunlian.test.aop2.YellowHuman"></bean>
+       <bean id="yellowHuman-2" class="com.rujianbin.aop2.YellowHuman"></bean>
        
 </beans>
